@@ -5,10 +5,14 @@
     "@types/copyfiles": "^2",
     "@types/node": "^22.7.5",
     "copyfiles": "^2.4.1",
+    "http-server": "^14.1.1",
+    "nodemon": "^3.1.7",
     "sass": "^1.79.5",
     "typescript": "^5.6.3"
   },
   "scripts": {
-    "build": "tsc && sass src/styles:dist/css && copyfiles -f src/**.html dist"
+    "build": "tsc && sass src/styles:dist/css && copyfiles -f src/**.html dist",
+    "start": "http-server dist/",
+    "watch": "yarn build && nodemon"
   }
 }
