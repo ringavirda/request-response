@@ -1,4 +1,9 @@
 {
   "name": "request-response",
-  "packageManager": "yarn@4.5.0"
+  "packageManager": "yarn@4.5.0",
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "sass": "^1.79.5",
+    "typescript": "^5.6.3"
+  }
 }
