@@ -4,11 +4,27 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-.container {
+.title {
     margin: 2em;
     padding: 1em;
     border-radius: 1em;
-    width: 50%;
+    width: 75%;
     background-color: orange;
     color: white;
+    font-size: xx-large;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.renderer {
+    border: 5px solid gray;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+    font-size: medium;
+}
+
+.wrapped {
+    word-wrap: break-word;
+    width: 100%;
 }

@@ -7,11 +7,16 @@
     "copyfiles": "^2.4.1",
     "http-server": "^14.1.1",
     "nodemon": "^3.1.7",
+    "raw-loader": "^4.0.2",
+    "rimraf": "^6.0.1",
     "sass": "^1.79.5",
-    "typescript": "^5.6.3"
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "tsc && sass src/styles:dist/css && copyfiles -f src/**.html dist",
+    "build": "rimraf dist && tsc && sass src/styles:dist/css && copyfiles -f src/**.html src/*/**.html dist",
     "start": "http-server dist/",
     "watch": "yarn build && nodemon"
   }
