@@ -50,7 +50,6 @@ ctrlInput?.addEventListener("focusout", () => {
         waifus.forEach((waifu) => apiService.fetchHttpRequest(waifu)
             .then((char) => viewModel.displayCharacter(char))
             .catch((error) => viewModel.displayError(error)));
-
     }
 });
 
