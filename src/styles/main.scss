@@ -1,22 +1,27 @@
-.title {
-    margin: 2em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1em;
-    border-radius: 1em;
-    align-self: center;
-    width: fit-content;
-    background-color: orange;
-    color: white;
-    font-size: xx-large;
-    font-weight: bolder;
-    text-align: center;
-}
+.control-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 2em auto 2em auto;
+    background-color: darkorange;
+    
+    .ctrl-input {
+        font-size: large;
+        font-weight: 600;
+        align-self: center;
+        outline: none;
+        width: 80%;
+        height: 2em;
+        padding: 0.2em;
+        background-color: darkorange;
+        border: 0;
+        color: white;
+        text-align: center;
 
-.renderer {
-    border: 5px solid gray;
-    border-radius: 1em;
-    padding: 1em;
-    margin: 1em;
-    font-size: medium;
+        &:focus {
+            outline: none;
+        }
+    }
 }

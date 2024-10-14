@@ -5,23 +5,27 @@ import characterTemplate from "./components/character.html";
 import errorTemplate from "./components/error.html";
 
 export class ViewModel {
-    private _renderer: HTMLElement;
+    private _renderer: HTMLElement = null!;
 
     constructor(tag: string) {
         try {
             this.bind(tag);
-        } finally {
+        } catch {
             this._renderer = document.getElementsByTagName("body")[0];
         }
     }
 
-    bind(tag: string) {
+    bind(tag: string): void {
         const element = document.getElementById(tag);
         if (element != null) {
             this._renderer = element;
             this._isBound = true;
         }
         else throw new Error(`ViewModel cannot bind to [${tag}].`)
+    }
+
+    clear(): void {
+        this._renderer.innerHTML = "";
     }
 
     private _isBound: boolean = false;
@@ -68,7 +72,7 @@ export class ViewModel {
         const portraitElement = characterElement.querySelector<HTMLImageElement>(".char-portrait");
         if (portraitElement != null) portraitElement.src = char.portraitUrl;
 
-        this._renderer.appendChild(characterElement);
+        this._renderer?.appendChild(characterElement);
     }
 
     displayError(message: string): void {
@@ -78,6 +82,6 @@ export class ViewModel {
         const messageElement = errorElement.querySelector<HTMLDivElement>(".err-message");
         if (messageElement != null) messageElement.textContent = message;
         
-        this._renderer.appendChild(errorElement);
+        this._renderer?.appendChild(errorElement);
     }
 }

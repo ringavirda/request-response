@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
 </head>
 
 <body>
-    <div class="title">Requests test cases</div>
-    <div id="render" class="renderer"></div>
+    <div class="control-wrapper" class="div">
+        <input class="ctrl-input" type="text" placeholder="Keqing, Ayaka, Chiori">
+    </div>
+
+    <div id="render"></div>
 </body>
 
 
