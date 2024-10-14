@@ -1,8 +1,8 @@
-import { Character } from "./models/character.js";
-import { VisionColors } from "./models/visionColors.js";
+import { Character } from "./models/character";
+import { VisionColors } from "./models/visionColors";
 
-import errorTemplate from "../error.html";
-import characterTemplate from "../character.html";
+import characterTemplate from "./components/character.html";
+import errorTemplate from "./components/error.html";
 
 export class ViewModel {
     private _renderer: HTMLElement;
@@ -10,7 +10,6 @@ export class ViewModel {
     constructor(tag: string) {
         try {
             this.bind(tag);
-
         } finally {
             this._renderer = document.getElementsByTagName("body")[0];
         }
@@ -18,7 +17,7 @@ export class ViewModel {
 
     bind(tag: string) {
         const element = document.getElementById(tag);
-        if (element instanceof HTMLElement) {
+        if (element != null) {
             this._renderer = element;
             this._isBound = true;
         }
@@ -35,20 +34,21 @@ export class ViewModel {
         const nameElement = characterElement.querySelector<HTMLDivElement>(".char-name");
         if (nameElement != null) nameElement.textContent = char.name;
         const titleElement = characterElement.querySelector<HTMLDivElement>(".char-title");
-        if (titleElement != null) titleElement.textContent = char.name;
+        if (titleElement != null) titleElement.textContent = char.title;
         const weaponElement = characterElement.querySelector<HTMLDivElement>(".char-weapon");
-        if (weaponElement != null) weaponElement.textContent = char.name;
+        if (weaponElement != null) weaponElement.textContent = char.weapon;
         const genderElement = characterElement.querySelector<HTMLDivElement>(".char-gender");
-        if (genderElement != null) genderElement.textContent = char.name;
+        if (genderElement != null) genderElement.textContent = char.gender;
         const nationElement = characterElement.querySelector<HTMLDivElement>(".char-nation");
-        if (nationElement != null) nationElement.textContent = char.name;
+        if (nationElement != null) nationElement.textContent = char.nation;
         const descElement = characterElement.querySelector<HTMLDivElement>(".char-description");
-        if (descElement != null) descElement.textContent = char.name;
+        if (descElement != null) descElement.textContent = char.description;
 
         const rarityElement = characterElement.querySelector<HTMLDivElement>(".char-rarity");
-        if (rarityElement != null) rarityElement.textContent = "&#11088".repeat(char.rarity);
-
-        let characterColor = VisionColors[char.vision as keyof typeof VisionColors];
+        if (rarityElement != null) rarityElement.textContent
+            = String.fromCodePoint(0x2b50).repeat(char.rarity);
+        
+        let characterColor = VisionColors[char.vision.toLocaleLowerCase() as keyof typeof VisionColors];
         if (characterColor == null) {
             characterColor = VisionColors.default;
         }
@@ -64,6 +64,9 @@ export class ViewModel {
             constElement.style.backgroundColor = characterColor;
             constElement.textContent = char.constellation;
         }
+
+        const portraitElement = characterElement.querySelector<HTMLImageElement>(".char-portrait");
+        if (portraitElement != null) portraitElement.src = char.portraitUrl;
 
         this._renderer.appendChild(characterElement);
     }

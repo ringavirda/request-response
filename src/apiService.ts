@@ -1,4 +1,4 @@
-import { Character } from "./models/character.js";
+import { Character } from "./models/character";
 
 export class ApiService {
     private _baseApiUrl: string = "https://genshin.jmp.blue/characters" as const;
@@ -40,7 +40,7 @@ export class ApiService {
         if (!response.ok)
             throw new Error(`Wasn't able to load target [${target}].\n${response.statusText}`)
         const char = await response.json() as Character;
-        char.portraitUrl = `${this._baseApiUrl}/${char.name.toLowerCase()}/portrait`;
+        char.portraitUrl = `${this._baseApiUrl}/${target}/portrait`;
         return char;
     }
 

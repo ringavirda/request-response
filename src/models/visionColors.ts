@@ -2,7 +2,7 @@ export enum VisionColors {
     pyro = "red",
     hydro = "blue",
     dendro = "lightgreen",
-    geo = "yellow",
+    geo = "orange",
     cryo = "lightblue",
     anemo = "teal",
     electro = "blueviolet",

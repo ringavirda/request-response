@@ -1,8 +1,10 @@
-import { ApiService } from "./apiService.js";
-import { Character } from "./models/character.js";
-import { ViewModel } from "./viewModel.js"
+import "./styles.scss"
 
-const viewModel = new ViewModel("renderer");
+import { ApiService } from "./apiService";
+import { Character } from "./models/character";
+import { ViewModel } from "./viewModel"
+
+const viewModel = new ViewModel("render");
 const apiService = new ApiService();
 
 apiService.XMLHttpRequest("keqing", (error: string, char: Character) => {
