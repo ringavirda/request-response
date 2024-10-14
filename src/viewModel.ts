@@ -74,10 +74,10 @@ export class ViewModel {
     displayError(message: string): void {
         const errorElement = document.createElement("div");
         errorElement.innerHTML = errorTemplate;
-
-        const messageElement = errorElement.querySelector<HTMLDivElement>("err-message");
+        
+        const messageElement = errorElement.querySelector<HTMLDivElement>(".err-message");
         if (messageElement != null) messageElement.textContent = message;
-
+        
         this._renderer.appendChild(errorElement);
     }
 }

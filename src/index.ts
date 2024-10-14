@@ -7,7 +7,7 @@ import { ViewModel } from "./viewModel"
 const viewModel = new ViewModel("render");
 const apiService = new ApiService();
 
-apiService.XMLHttpRequest("keqing", (error: string, char: Character) => {
+apiService.XMLHttpRequest("keing", (error: string, char: Character) => {
     if (error == null) {
         viewModel.displayCharacter(char);
     } else {
