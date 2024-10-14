@@ -12,9 +12,4 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
-  {
-    rules: {
-      "linebreak-style": process.env.NODE_ENV === "prod" ? "unix" : "windows",
-    },
-  },
 ];

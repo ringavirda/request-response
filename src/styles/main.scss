@@ -29,7 +29,7 @@
 .renderer {
   display: flex;
   flex-direction: column;
-  @media screen and (min-width: $splitWidth) {
+  @media screen and (min-width: $split-width) {
     flex-direction: row;
     flex-wrap: wrap;
   }

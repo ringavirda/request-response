@@ -65,7 +65,7 @@ export class ViewModel {
       characterElement.querySelector<HTMLDivElement>(".char-rarity");
     if (rarityElement != null)
       rarityElement.textContent = String.fromCodePoint(0x2b50).repeat(
-        char.rarity
+        char.rarity,
       );
 
     let characterColor =
