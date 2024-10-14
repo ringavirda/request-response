@@ -24,18 +24,27 @@ const displayDefaults = () => {
 
 const parseInput = (raw: string | null | undefined) => {
     if (raw == "" || raw == undefined) return [];
-    return raw.split(",").map(w => w.trim().toLowerCase());
+    return raw.split(",")
+        .map(w => w.trim().toLowerCase())
+        .filter(w => w != "");
 };
 
 const viewModel = new ViewModel("render");
 const apiService = new ApiService();
 
 const ctrlInput = document.querySelector<HTMLInputElement>(".ctrl-input");
+let waifuBuffer: string[] = [];
+const compare = (a: string[], b: string[]) =>
+    a.length === b.length &&
+    a.every((element, index) => element === b[index]);
+
 
 ctrlInput?.addEventListener("focusout", () => {
-    viewModel.clear();
     const waifus = parseInput(ctrlInput?.value);
+    if (compare(waifus, waifuBuffer)) return;
 
+    waifuBuffer = waifus;
+    viewModel.clear();
     if (waifus.length === 0) displayDefaults();
     else {
         waifus.forEach((waifu) => apiService.fetchHttpRequest(waifu)
