@@ -41,12 +41,17 @@ export class ViewModel {
         if (titleElement != null) titleElement.textContent = char.title;
         const weaponElement = characterElement.querySelector<HTMLDivElement>(".char-weapon");
         if (weaponElement != null) weaponElement.textContent = char.weapon;
-        const genderElement = characterElement.querySelector<HTMLDivElement>(".char-gender");
-        if (genderElement != null) genderElement.textContent = char.gender;
         const nationElement = characterElement.querySelector<HTMLDivElement>(".char-nation");
         if (nationElement != null) nationElement.textContent = char.nation;
         const descElement = characterElement.querySelector<HTMLDivElement>(".char-description");
         if (descElement != null) descElement.textContent = char.description;
+
+        const genderElement = characterElement.querySelector<HTMLDivElement>(".char-gender");
+        if (genderElement != null) {
+            genderElement.textContent = char.gender;
+            if (char.gender === "Female") genderElement.style.backgroundColor = "pink";
+            else genderElement.style.backgroundColor = "aqua"; 
+        }
 
         const rarityElement = characterElement.querySelector<HTMLDivElement>(".char-rarity");
         if (rarityElement != null) rarityElement.textContent
