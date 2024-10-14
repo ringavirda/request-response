@@ -6,7 +6,7 @@
     width: 100%;
     margin: 2em auto 2em auto;
     background-color: darkorange;
-    
+
     .ctrl-input {
         font-size: large;
         font-weight: 600;
@@ -23,5 +23,14 @@
         &:focus {
             outline: none;
         }
+    }
+}
+
+.renderer {
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: $splitWidth) {
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
