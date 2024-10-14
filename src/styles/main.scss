@@ -1,36 +1,36 @@
 .control-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 2em auto 2em auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 2em auto 2em auto;
+  background-color: darkorange;
+
+  .ctrl-input {
+    font-size: large;
+    font-weight: 600;
+    align-self: center;
+    outline: none;
+    width: 80%;
+    height: 2em;
+    padding: 0.2em;
     background-color: darkorange;
+    border: 0;
+    color: white;
+    text-align: center;
 
-    .ctrl-input {
-        font-size: large;
-        font-weight: 600;
-        align-self: center;
-        outline: none;
-        width: 80%;
-        height: 2em;
-        padding: 0.2em;
-        background-color: darkorange;
-        border: 0;
-        color: white;
-        text-align: center;
-
-        &:focus {
-            outline: none;
-        }
+    &:focus {
+      outline: none;
     }
+  }
 }
 
 .renderer {
-    display: flex;
-    flex-direction: column;
-    @media screen and (min-width: $splitWidth) {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: $splitWidth) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
