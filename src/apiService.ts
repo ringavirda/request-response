@@ -39,7 +39,7 @@ export class ApiService {
     const response = await fetch(`${this._baseApiUrl}/${target}`);
     if (!response.ok)
       throw new Error(
-        `Wasn't able to load target [${target}].\n${response.statusText}`
+        `Wasn't able to load target [${target}].\n${response.statusText}`,
       );
     const char = (await response.json()) as Character;
     char.portraitUrl = `${this._baseApiUrl}/${target}/portrait`;

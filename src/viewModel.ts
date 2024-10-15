@@ -92,8 +92,13 @@ export class ViewModel {
 
     const portraitElement =
       characterElement.querySelector<HTMLImageElement>(".char-portrait");
-    if (portraitElement != null) portraitElement.src = char.portraitUrl;
-
+    if (portraitElement != null) {
+      portraitElement.src = char.portraitUrl;
+      const borderStyle = `thick solid ${characterColor}`;
+      portraitElement.style.borderTop = borderStyle;
+      portraitElement.style.borderRight = borderStyle;
+      portraitElement.style.borderBottom = borderStyle;
+    }
     this._renderer?.appendChild(characterElement);
   }
 
