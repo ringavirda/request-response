@@ -84,7 +84,7 @@ export class ViewModel {
     }
 
     const constElement =
-      characterElement.querySelector<HTMLDivElement>(".char-const-name");
+      characterElement.querySelector<HTMLDivElement>(".char-const");
     if (constElement != null) {
       constElement.style.backgroundColor = characterColor;
       constElement.textContent = char.constellation;

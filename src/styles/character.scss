@@ -1,6 +1,4 @@
 .character {
-  z-index: -1;
-  position: relative;
   display: flex;
   flex-direction: column;
   margin: 2em;
@@ -27,29 +25,37 @@
 
     .char-portrait {
       object-fit: cover;
-      padding-block: 1em;
       height: 480px;
-      max-width: 300px;
+      min-width: 300px;
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;
       @media screen and (max-width: $vertical-width) {
         align-self: center;
-        height: 30em;
-        width: min-content;
+        min-width: 400px;
+        object-fit: scale-down;
+        margin-bottom: 1.5em;
       }
     }
 
     .char-characteristics {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
       margin-left: 1em;
+      @media screen and (max-width: $vertical-width) {
+        margin-left: 0;
+      }
 
       .char-heading {
         width: 100%;
         display: flex;
         flex-direction: row;
+        align-items: center;
 
         .char-title-wrapper {
           display: flex;
+          margin-left: 1em;
           flex-direction: column;
           justify-content: space-around;
 
@@ -65,12 +71,21 @@
             font-style: italic;
             font-weight: 600;
           }
+
+          .char-rarity {
+            margin-top: 0.4em;
+            padding: 0.2em;
+            border-radius: 0.4em;
+            background-color: dimgray;
+            width: fit-content;
+          }
         }
 
         .char-vision {
           align-self: center;
           justify-self: flex-end;
-          width: 100%;
+          width: 60%;
+          margin-right: 0.5em;
           text-align: center;
           padding: 0.4em;
           font-size: xx-large;
@@ -81,22 +96,17 @@
         }
       }
 
-      .char-rarity {
-        margin-top: 0.4em;
-        padding: 0.2em;
-        border-radius: 0.4em;
-        background-color: dimgray;
-        width: fit-content;
-      }
-
       .char-info {
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
         align-self: flex-end;
-        margin-top: 2em;
         border-radius: 1em;
         background-color: #afafaf;
         width: 100%;
+        @media screen and (max-width: $vertical-width) {
+          align-self: center;
+        }
 
         .char-identity-wrapper {
           display: flex;
@@ -105,7 +115,7 @@
           border-bottom: thick solid orange;
           justify-content: space-between;
           align-items: center;
-          margin: 1em;
+          margin-inline: 1em;
           padding: 1em;
 
           .char-nation {
@@ -137,8 +147,7 @@
           font-size: large;
           border-bottom: thick solid orange;
           padding: 1em;
-          margin: 1em;
-          margin-top: 0;
+          margin-inline: 1em;
 
           .char-preferred {
             font-size: larger;
@@ -161,17 +170,14 @@
         .char-const-wrapper {
           display: flex;
           flex-direction: column;
+          margin-inline: 1em;
           padding: 1em;
           font-size: large;
 
           .char-const {
-            font-weight: 600;
-            margin-bottom: 0.5em;
-          }
-
-          .char-const-name {
             padding: 0.5em;
             border-radius: 0.5em;
+            font-size: larger;
             font-weight: 800;
             font-style: italic;
             font-family: Georgia;
@@ -188,7 +194,9 @@
     margin-inline: 1em;
     padding: 1em;
     font-size: large;
-    font-weight: bold;
+    font-weight: 600;
     word-wrap: break-word;
+    font-family: "courier new";
+    font-style: italic;
   }
 }
