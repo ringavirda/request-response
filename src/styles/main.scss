@@ -30,6 +30,7 @@
   .waifu-list-wrapper {
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     width: 100%;
     height: 10em;
 
@@ -43,7 +44,7 @@
     .waifu-list {
       margin: 0.5em;
       overflow-y: auto;
-      height: 8em;
+      height: 7em;
       font-size: medium;
       font-weight: 600;
 
