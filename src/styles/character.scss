@@ -9,6 +9,7 @@
   max-width: 640px;
   min-height: 520px;
   @media screen and (min-width: $vertical-width) {
+    margin-left: 5em;
   }
 
   .char-wrapper {
@@ -137,6 +138,7 @@
             font-size: x-large;
             font-style: italic;
             font-weight: bolder;
+            font-family: cambria;
             align-self: center;
             justify-self: flex-end;
             padding: 0.5em;
