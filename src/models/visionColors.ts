@@ -1,3 +1,6 @@
+/**
+ * Known values representing colors for character's elements.
+ */
 export enum VisionColors {
   pyro = "red",
   hydro = "blue",

@@ -1,3 +1,7 @@
+/**
+ * Model for a waifu. Used to filter out unnecessary properties from the server's
+ * response object.
+ */
 export interface Character {
   name: string;
   title: string;
