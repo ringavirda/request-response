@@ -29,12 +29,15 @@ export class ApiService {
         // Process if operation is a success.
         const char = JSON.parse(request.responseText) as Character;
         // Construct portrait url.
-        char.portraitUrl = `${this._baseApiUrl}/${char.name.toLowerCase()}/portrait`;
+        char.portraitUrl = `${this._baseApiUrl}/${target}/portrait`;
         // Pass to client's callback.
         callback("", char);
       } else if (request.readyState === 4) {
         // Process if errors were received.
-        callback(`Wasn't able to load target [${target}].`, null);
+        callback(
+          `Wasn't able to load target [${target}]. Error status code: ${request.status}`,
+          null,
+        );
       }
     });
 
@@ -61,12 +64,14 @@ export class ApiService {
           // Process if operation is a success.
           const char = JSON.parse(request.responseText) as Character;
           // Construct portrait url.
-          char.portraitUrl = `${this._baseApiUrl}/${char.name.toLowerCase()}/portrait`;
+          char.portraitUrl = `${this._baseApiUrl}/${target}/portrait`;
           // Pass to client's callback.
           resolve(char);
         } else if (request.readyState === 4) {
           // Process if errors were received.
-          reject(`Wasn't able to load target [${target}].`);
+          reject(
+            `Wasn't able to load target [${target}]. Error status code: ${request.status}`,
+          );
         }
       });
       // Open the connection.
