@@ -58,7 +58,12 @@ export class ViewModel {
       genderElement.textContent = char.gender;
       if (char.gender === "Female")
         genderElement.style.backgroundColor = "pink";
-      else genderElement.style.backgroundColor = "aqua";
+      else if (char.gender == "Male")
+        genderElement.style.backgroundColor = "aqua";
+      else {
+        genderElement.style.backgroundColor = "gold";
+        genderElement.textContent = "Descender";
+      }
     }
 
     const rarityElement =

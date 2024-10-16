@@ -7,8 +7,8 @@
   border-radius: 2em;
   width: fit-content;
   max-width: 640px;
+  min-height: 520px;
   @media screen and (min-width: $vertical-width) {
-    height: 640px;
   }
 
   .char-wrapper {
@@ -25,14 +25,18 @@
 
     .char-portrait {
       object-fit: cover;
-      height: 480px;
+      max-height: 540px;
+      min-height: 400px;
+      max-width: 480px;
       min-width: 300px;
+      width: auto;
+      height: auto;
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;
       @media screen and (max-width: $vertical-width) {
         align-self: center;
-        min-width: 400px;
+        width: 400px;
         object-fit: scale-down;
         margin-bottom: 1.5em;
       }
@@ -104,8 +108,10 @@
         border-radius: 1em;
         background-color: #afafaf;
         width: 100%;
+        min-width: 360px;
         @media screen and (max-width: $vertical-width) {
           align-self: center;
+          margin-top: 1em;
         }
 
         .char-identity-wrapper {
