@@ -24,18 +24,22 @@
     margin: 0.5em;
     font-family: cursive;
     font-style: italic;
+    border-right: thick solid orange;
   }
 
   .waifu-list-wrapper {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 10em;
-    border-left: thick solid orange;
+
     .waifu-list-desc {
       margin-left: 0.5em;
       font-size: large;
       font-weight: 600;
       font-family: cursive;
     }
+
     .waifu-list {
       margin: 0.5em;
       overflow-y: auto;
@@ -98,7 +102,7 @@
     .ctrl-btn-get {
       @include button-interact();
       margin: 0.5em;
-      margin-right: 2em;
+      margin-right: 1em;
       border-radius: 1em;
       font-size: larger;
       font-weight: 800;
@@ -106,6 +110,9 @@
       border: 0;
       color: white;
       background-color: #c00;
+      @media screen and (max-width: $vertical-width) {
+        min-height: 2em;
+      }
     }
 
     .ctrl-btn-rnd {
@@ -118,6 +125,9 @@
       padding-inline: 1em;
       color: white;
       background-color: darkmagenta;
+      @media screen and (max-width: $vertical-width) {
+        min-height: 2em;
+      }
     }
   }
 }
