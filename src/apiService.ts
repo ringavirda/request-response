@@ -7,8 +7,8 @@ export class ApiService {
   private _baseApiUrl: string = "https://genshin.jmp.blue/characters" as const;
 
   // Cashes.
-  private _waifuCashe: Map<string, Character> = new Map();
-  private _portraitCashe: Map<string, [Blob, string]> = new Map();
+  private _waifuCashe: Map<string, [Character | null, string, Blob]> =
+    new Map();
 
   /**
    * Example of fetching being made with old `XMLHttpRequest` api. It is recommended
@@ -102,7 +102,7 @@ export class ApiService {
   async fetchHttpRequest(target: string): Promise<Character> {
     if (this._waifuCashe.has(target))
       // If waifu exists in cashe return already known values.
-      return this._waifuCashe.get(target) as Character;
+      return this._waifuCashe.get(target)?.[0] as Character;
     // Make a request to target.
     const response = await fetch(`${this._baseApiUrl}/${target}`);
     if (!response.ok)
@@ -116,6 +116,9 @@ export class ApiService {
     const charPortrait = await this.fetchWaifuPortrait(target);
     // Construct internal URL to image blob.
     char.portraitUrl = charPortrait;
+    const cashed = this._waifuCashe.get(target);
+    if (cashed != undefined)
+      this._waifuCashe.set(target, [char, cashed?.[1], cashed?.[2]]);
     // Return fetched character.
     return char;
   }
@@ -128,9 +131,6 @@ export class ApiService {
    * @returns Promise to sa URL to the loaded image blob.
    */
   async fetchWaifuPortrait(target: string): Promise<string> {
-    if (this._portraitCashe.has(target))
-      // Return cashed value if present.
-      return this._portraitCashe.get(target)?.[1] as string;
     // Construct portrait url.
     const urlPortrait = `${this._baseApiUrl}/${target}/portrait`;
     // Fetch waifu's portrait.
@@ -148,7 +148,7 @@ export class ApiService {
     // Create browser local url to blob.
     const blobUrl = URL.createObjectURL(blob);
     // Populate portrait cashe.
-    this._portraitCashe.set(target, [blob, blobUrl]);
+    this._waifuCashe.set(target, [null, blobUrl, blob]);
     // Return portrait url.
     return blobUrl;
   }
