@@ -1,12 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Courier New", Courier, monospace;
-}
-
-$vertical-width: 640px;
-$split-width: 1280px;
-
-@import "styles/main.scss";
-@import "styles/error.scss";
-@import "styles/character.scss";
+@use "styles/common.scss";
+@use "styles/main.scss";
+@use "styles/error.scss";
+@use "styles/character.scss";

@@ -1,3 +1,5 @@
+@use "common.scss";
+
 .character {
   display: flex;
   flex-direction: column;
@@ -8,7 +10,7 @@
   width: fit-content;
   max-width: 640px;
   min-height: 520px;
-  @media screen and (min-width: $vertical-width) {
+  @media screen and (min-width: common.$vertical-width) {
     margin-left: 5em;
   }
 
@@ -20,7 +22,7 @@
     border-radius: 2em;
     padding: 1em;
 
-    @media screen and (max-width: $vertical-width) {
+    @media screen and (max-width: common.$vertical-width) {
       flex-direction: column;
     }
 
@@ -35,7 +37,7 @@
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;
-      @media screen and (max-width: $vertical-width) {
+      @media screen and (max-width: common.$vertical-width) {
         align-self: center;
         width: 400px;
         object-fit: scale-down;
@@ -48,7 +50,7 @@
       flex-direction: column;
       justify-content: space-evenly;
       margin-left: 1em;
-      @media screen and (max-width: $vertical-width) {
+      @media screen and (max-width: common.$vertical-width) {
         margin-left: 0;
       }
 
@@ -110,7 +112,7 @@
         background-color: #afafaf;
         width: 100%;
         min-width: 360px;
-        @media screen and (max-width: $vertical-width) {
+        @media screen and (max-width: common.$vertical-width) {
           align-self: center;
           margin-top: 1em;
         }

@@ -1,16 +1,4 @@
-@mixin button-interact {
-  border: 0;
-
-  &:hover {
-    filter: brightness(115%);
-  }
-  &:active {
-    filter: brightness(95%);
-  }
-  &:focus {
-    outline: none;
-  }
-}
+@use "common.scss";
 
 .header {
   background-color: lightgray;
@@ -72,7 +60,7 @@
   width: 100%;
   margin: 0 auto 2em auto;
   background-color: darkorange;
-  @media screen and (max-width: $vertical-width) {
+  @media screen and (max-width: common.$vertical-width) {
     flex-direction: column;
   }
 
@@ -101,7 +89,7 @@
     flex-direction: row;
 
     .ctrl-btn-get {
-      @include button-interact();
+      @include common.button-interact();
       margin: 0.5em;
       margin-right: 1em;
       border-radius: 1em;
@@ -111,13 +99,13 @@
       border: 0;
       color: white;
       background-color: #c00;
-      @media screen and (max-width: $vertical-width) {
+      @media screen and (max-width: common.$vertical-width) {
         min-height: 2em;
       }
     }
 
     .ctrl-btn-rnd {
-      @include button-interact();
+      @include common.button-interact();
       font-size: large;
       font-weight: 700;
       margin: 0.5em;
@@ -126,7 +114,7 @@
       padding-inline: 1em;
       color: white;
       background-color: darkmagenta;
-      @media screen and (max-width: $vertical-width) {
+      @media screen and (max-width: common.$vertical-width) {
         min-height: 2em;
       }
     }
@@ -137,7 +125,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (min-width: $split-width) {
+  @media screen and (min-width: common.$split-width) {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
