@@ -1,4 +1,4 @@
-import { Character } from "./models/character";
+import { Character } from "../common/models/character";
 
 /**
  * Repository for fetching data from Genshin API.
