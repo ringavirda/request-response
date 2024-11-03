@@ -2,11 +2,22 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Edge",
+      "name": "Launch: Live Edge",
       "request": "launch",
       "type": "msedge",
       "url": "http://localhost:4000",
-      "webRoot": "${workspaceFolder}/dist"
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Launch: Nodemon",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "program": "${workspaceFolder}/dist/server.js",
+      "request": "launch",
+      "restart": true,
+      "runtimeExecutable": "nodemon",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
     }
   ]
 }

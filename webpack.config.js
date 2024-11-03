@@ -1,25 +1,11 @@
 const path = require("path");
 const htmlPlugin = require("html-webpack-plugin");
+const { merge } = require("webpack-merge");
+const nodeExternals = require("webpack-node-externals");
 
-module.exports = {
+const commonConfig = {
   mode: "development",
-  entry: {
-    main: path.resolve(__dirname, "src/index.ts"),
-  },
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].js",
-    clean: true,
-  },
   devtool: "source-map",
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, "dist"),
-    },
-    port: 4000,
-    open: true,
-    hot: true,
-  },
   module: {
     rules: [
       {
@@ -40,11 +26,39 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", ".json"],
   },
+};
+
+const clientConfig = {
+  entry: {
+    main: path.resolve(__dirname, "src/client/index.ts"),
+  },
+  output: {
+    path: path.resolve(__dirname, "dist/public"),
+    filename: "[name].[contenthash].js",
+    clean: true,
+  },
   plugins: [
     new htmlPlugin({
       title: "Requests Demo",
       filename: "index.html",
-      template: "src/index.html",
+      template: "src/client/index.html",
     }),
   ],
 };
+
+const serverConfig = {
+  entry: {
+    server: path.resolve(__dirname, "src/server/server.ts"),
+  },
+  target: "node",
+  externals: [nodeExternals()],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "[name].js",
+  },
+};
+
+module.exports = [
+  merge(commonConfig, clientConfig),
+  merge(commonConfig, serverConfig),
+];
