@@ -1,5 +1,5 @@
 export abstract class ComponentBase {
-  private _element: HTMLDivElement;
+  private _element: HTMLElement;
   protected _template: string;
 
   constructor(html: string) {
@@ -11,18 +11,14 @@ export abstract class ComponentBase {
   }
 
   public abstract initialize(
-    anchor?: HTMLDivElement,
+    anchor?: HTMLElement,
     model?: object,
   ): Promise<void>;
 
-  public refresh(anchor: HTMLDivElement): void {
+  public load(anchor: HTMLElement): void {
     for (const ch of this._element.childNodes) {
       anchor.append(ch);
     }
-  }
-
-  public get element(): HTMLDivElement {
-    return this._element;
   }
 
   protected getElement<T extends HTMLElement>(selector: string) {

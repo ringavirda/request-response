@@ -1,6 +1,6 @@
 import "./characters.scss";
 import template from "./characters.html";
-import { singleton } from "tsyringe";
+import { injectable } from "tsyringe";
 import { ApiService } from "@client/services/genshinApi";
 import { Character } from "@common/models";
 import {
@@ -10,7 +10,7 @@ import {
   RequestError,
 } from "@common/components";
 
-@singleton()
+@injectable()
 export class Characters extends ComponentBase {
   private _ctrlInput: HTMLInputElement;
   private _ctrlBtnGet: HTMLButtonElement;
@@ -30,30 +30,22 @@ export class Characters extends ComponentBase {
   }
 
   public override async initialize(): Promise<void> {
-    // Register next waifu retrieval logic.
     this._ctrlBtnGet.addEventListener("click", () => {
-      // Drop request if no changes detected.
       const waifus = this.parseInput(this._ctrlInput.value);
       if (this.compare(waifus, this._waifuBuffer)) return;
-      // Load new waifus.
       this._waifuBuffer = waifus;
       this.loadWaifus(waifus);
     });
 
-    // Register random waifu array retrieval logic.
     this._ctrlBtnRandom.addEventListener("click", async () => {
       const waifuList = await this._api.fetchWaifuList();
-      // Create unique index array.
       const waifuPos: Array<number> = [];
       while (waifuPos.length < 10) {
         const next = Math.floor(Math.random() * waifuList.length);
         if (waifuPos.indexOf(next) === -1) waifuPos.push(next);
       }
-      // Translate using known waifu names.
       const waifus = waifuPos.map((pos) => waifuList[pos]);
-      // Load constructed targets.
       this.loadWaifus(waifus);
-      // Update placeholder with loaded names.
       if (this._ctrlInput !== null)
         this._ctrlInput.placeholder = waifus.join(", ");
     });
@@ -65,9 +57,7 @@ export class Characters extends ComponentBase {
     this._characterList.innerHTML = "";
   }
 
-  // Load and render Keqing, Chiori and Ayaka using legacy api.
   private async addDefaults() {
-    // XML request.
     this._api.rawXMLHttpRequest("keqing", (error, char) => {
       if (error == "" && char != null) {
         this.addCharacter(char);
@@ -75,12 +65,10 @@ export class Characters extends ComponentBase {
         this.addError(new Error(error));
       }
     });
-    // Promise wrapper for the XML request.
     this._api
       .promiseXMLHttpRequest("chiori")
       .then((char) => this.addCharacter(char))
       .catch((error) => this.addError(error));
-    // Fetch API.
     try {
       const ayaka = await this._api.fetchHttpRequest("ayaka");
       this.addCharacter(ayaka);

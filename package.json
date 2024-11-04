@@ -31,7 +31,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch --stats-error-details",
+    "watch": "webpack --watch",
     "start": "nodemon ./dist/server.js"
   },
   "dependencies": {

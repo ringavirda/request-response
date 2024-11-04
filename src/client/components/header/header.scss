@@ -11,6 +11,10 @@
     font-family: cursive;
     font-style: italic;
     border-right: thick solid orange;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .waifu-list-wrapper {

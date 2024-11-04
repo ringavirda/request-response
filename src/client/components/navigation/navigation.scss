@@ -1,0 +1,36 @@
+@use "common.scss";
+
+.app-nav {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  border-top: solid darkorange 3px;
+  border-bottom: solid darkorange 3px;
+  @media screen and (max-width: common.$vertical-width) {
+    justify-content: space-evenly;
+  }
+
+  .nav-item {
+    @include common.button-interact();
+    @media screen and (min-width: common.$vertical-width) {
+      margin-inline: 2em;
+    }
+
+    filter: drop-shadow(1px 1px 1px grey);
+    min-width: max(150px, 15%);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    font-size: x-large;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    background-color: darkmagenta;
+    color: white;
+  }
+}
+
+.selected {
+  outline: solid black 3px;
+  background-color: darkorchid !important;
+}

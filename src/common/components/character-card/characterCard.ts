@@ -16,11 +16,11 @@ export class CharacterCard extends ComponentBase {
   private _rarityElement: HTMLDivElement;
   private _visionElement: HTMLDivElement;
   private _constElement: HTMLDivElement;
-  private _portraitElement: HTMLImageElement =
-    this.getElement(".char-portrait");
+  private _portraitElement: HTMLImageElement;
 
   constructor() {
     super(template);
+
     this._nameElement = this.getElement(".char-name");
     this._titleElement = this.getElement(".char-title");
     this._weaponElement = this.getElement(".char-weapon");
