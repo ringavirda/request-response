@@ -19,12 +19,38 @@ const commonConfig = {
       },
       {
         test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                loadPaths: [path.resolve(__dirname, "src/common")],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|svg|gif)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "assets",
+          },
+        },
       },
     ],
   },
   resolve: {
     extensions: [".ts", ".js", ".json"],
+    alias: {
+      "@common": path.resolve(__dirname, "src/common"),
+      "@client": path.resolve(__dirname, "src/client"),
+      "@server": path.resolve(__dirname, "src/server"),
+    },
   },
 };
 
@@ -39,9 +65,10 @@ const clientConfig = {
   },
   plugins: [
     new htmlPlugin({
-      title: "Requests Demo",
+      title: "Waifu Picker",
       filename: "index.html",
-      template: "src/client/index.html",
+      template: "./src/client/index.html",
+      favicon: "./src/client/assets/favicon.ico",
     }),
   ],
 };

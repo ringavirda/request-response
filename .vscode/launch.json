@@ -6,8 +6,7 @@
       "request": "launch",
       "type": "msedge",
       "url": "http://localhost:4000",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "Live Preview: Run Server"
+      "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Launch: Nodemon",

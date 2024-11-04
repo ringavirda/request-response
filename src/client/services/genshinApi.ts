@@ -1,8 +1,10 @@
-import { Character } from "../common/models/character";
+import { Character } from "@common/models";
+import { singleton } from "tsyringe";
 
 /**
  * Repository for fetching data from Genshin API.
  */
+@singleton()
 export class ApiService {
   private _baseApiUrl: string = "https://genshin.jmp.blue/characters" as const;
 

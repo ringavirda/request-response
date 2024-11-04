@@ -1,84 +1,83 @@
 import "./character_card.scss";
 import template from "./character_card.html";
-import { Character } from "../../models/character";
-import { VisionColors } from "../../models/visionColors";
+import { Character } from "@common/models/character";
+import { VisionColors } from "@common/models/visionColors";
+import { injectable } from "tsyringe";
+import { ComponentBase } from "@common/components";
 
-export class CharacterCard {
-  public element: HTMLDivElement;
+@injectable()
+export class CharacterCard extends ComponentBase {
+  private _nameElement: HTMLDivElement;
+  private _titleElement: HTMLDivElement;
+  private _weaponElement: HTMLDivElement;
+  private _nationElement: HTMLDivElement;
+  private _descElement: HTMLDivElement;
+  private _genderElement: HTMLDivElement;
+  private _rarityElement: HTMLDivElement;
+  private _visionElement: HTMLDivElement;
+  private _constElement: HTMLDivElement;
+  private _portraitElement: HTMLImageElement =
+    this.getElement(".char-portrait");
 
-  constructor(char: Character) {
-    // Create mounting point.
-    const characterElement = document.createElement("div");
-    characterElement.innerHTML = template;
+  constructor() {
+    super(template);
+    this._nameElement = this.getElement(".char-name");
+    this._titleElement = this.getElement(".char-title");
+    this._weaponElement = this.getElement(".char-weapon");
+    this._nationElement = this.getElement(".char-nation");
+    this._descElement = this.getElement(".char-description");
+    this._genderElement = this.getElement(".char-gender");
+    this._rarityElement = this.getElement(".char-rarity");
+    this._visionElement = this.getElement(".char-vision");
+    this._constElement = this.getElement(".char-const");
+    this._portraitElement = this.getElement(".char-portrait");
+  }
+
+  public override async initialize(
+    anchor?: HTMLElement,
+    model?: Character,
+  ): Promise<void> {
+    model = this.validateModel(model);
+
     // Populate component with plain model values.
-    const nameElement =
-      characterElement.querySelector<HTMLDivElement>(".char-name");
-    if (nameElement != null) nameElement.textContent = char.name;
-    const titleElement =
-      characterElement.querySelector<HTMLDivElement>(".char-title");
-    if (titleElement != null) titleElement.textContent = char.title;
-    const weaponElement =
-      characterElement.querySelector<HTMLDivElement>(".char-weapon");
-    if (weaponElement != null) weaponElement.textContent = char.weapon;
-    const nationElement =
-      characterElement.querySelector<HTMLDivElement>(".char-nation");
-    if (nationElement != null) nationElement.textContent = char.nation;
-    const descElement =
-      characterElement.querySelector<HTMLDivElement>(".char-description");
-    if (descElement != null) descElement.textContent = char.description;
+    this._nameElement.textContent = model.name;
+    this._titleElement.textContent = model.title;
+    this._weaponElement.textContent = model.weapon;
+    this._nationElement.textContent = model.nation;
+    this._descElement.textContent = model.description;
     // Set character's gender while changing styles.
-    const genderElement =
-      characterElement.querySelector<HTMLDivElement>(".char-gender");
-    if (genderElement != null) {
-      genderElement.textContent = char.gender;
-      if (char.gender === "Female")
-        genderElement.style.backgroundColor = "pink";
-      else if (char.gender == "Male")
-        genderElement.style.backgroundColor = "aqua";
-      else {
-        genderElement.style.backgroundColor = "gold";
-        genderElement.textContent = "Descender";
-      }
+    this._genderElement.textContent = model.gender;
+    if (model.gender === "Female")
+      this._genderElement.style.backgroundColor = "pink";
+    else if (model.gender == "Male")
+      this._genderElement.style.backgroundColor = "aqua";
+    else {
+      this._genderElement.style.backgroundColor = "gold";
+      this._genderElement.textContent = "Descender";
     }
     // Display rarity as a string of stars.
-    const rarityElement =
-      characterElement.querySelector<HTMLDivElement>(".char-rarity");
-    if (rarityElement != null)
-      rarityElement.textContent = String.fromCodePoint(0x2b50).repeat(
-        char.rarity,
-      );
+    this._rarityElement.textContent = String.fromCodePoint(0x2b50).repeat(
+      model.rarity,
+    );
     // Determine character element's main color.
     let characterColor =
       VisionColors[
-        char.vision.toLocaleLowerCase() as keyof typeof VisionColors
+        model.vision.toLocaleLowerCase() as keyof typeof VisionColors
       ];
     if (characterColor == null) {
       characterColor = VisionColors.default;
     }
     // Set character's vision element and color.
-    const visionElement =
-      characterElement.querySelector<HTMLDivElement>(".char-vision");
-    if (visionElement != null) {
-      visionElement.style.backgroundColor = characterColor;
-      visionElement.textContent = char.vision;
-    }
+    this._visionElement.style.backgroundColor = characterColor;
+    this._visionElement.textContent = model.vision;
     // Set character's constellation element and color.
-    const constElement =
-      characterElement.querySelector<HTMLDivElement>(".char-const");
-    if (constElement != null) {
-      constElement.style.backgroundColor = characterColor;
-      constElement.textContent = char.constellation;
-    }
+    this._constElement.style.backgroundColor = characterColor;
+    this._constElement.textContent = model.constellation;
     // Load and set character's portrait, while rendering partial border.
-    const portraitElement =
-      characterElement.querySelector<HTMLImageElement>(".char-portrait");
-    if (portraitElement != null) {
-      portraitElement.src = char.portraitUrl;
-      const borderStyle = `thick solid ${characterColor}`;
-      portraitElement.style.borderTop = borderStyle;
-      portraitElement.style.borderRight = borderStyle;
-      portraitElement.style.borderBottom = borderStyle;
-    }
-    this.element = characterElement;
+    this._portraitElement.src = model.portraitUrl;
+    const borderStyle = `thick solid ${characterColor}`;
+    this._portraitElement.style.borderTop = borderStyle;
+    this._portraitElement.style.borderRight = borderStyle;
+    this._portraitElement.style.borderBottom = borderStyle;
   }
 }

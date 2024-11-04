@@ -1,0 +1,31 @@
+@use "common.scss";
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  padding-left: 1em;
+  background-color: lightgrey;
+  border-top: solid darkorange 5px;
+
+  @media screen and (min-width: common.$split-width) {
+    justify-content: flex-end;
+  }
+
+  .motto {
+    font-size: xx-large;
+    font-weight: bold;
+    font-style: italic;
+
+    .stella {
+      color: red;
+    }
+  }
+
+  .badge {
+    width: 240px;
+    filter: drop-shadow(5px 5px 4px dimgrey);
+  }
+}

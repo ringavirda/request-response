@@ -1,2 +1,15 @@
-@use "../common/common.scss";
-@use "styles/main.scss";
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Courier New", Courier, monospace;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+app-root {
+  flex: 1;
+}
