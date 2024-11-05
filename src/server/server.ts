@@ -2,22 +2,35 @@ import "reflect-metadata";
 import express from "express";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
-import { container } from "tsyringe";
-import { Logger } from "./services/logger";
+import logger from "./services/logger";
 import { clientRoutes } from "@wp/common/routes";
+import { loggingMiddleware } from "./middleware/logging";
+import { corsMiddleware } from "./middleware/cors";
+import {
+  errorHandlingMiddleware,
+  notFoundMiddleware,
+} from "./middleware/errors";
+import { useControllerRoutes } from "./decorators/routing";
+import { CharactersController } from "./controllers/characters";
+
+export const serverHostname = "localhost";
+export const serverPort = 5000;
+export const serverAllowedMethods = ["get", "post", "put", "delete"];
+
+logger.info("Server", "Startup begin.");
 
 const server = express();
-
-const hostname = "localhost";
-const port = 5000;
-const staticPath = resolve(__dirname, "public");
-
-const logger = container.resolve(Logger);
-logger.info("Server", "Startup begin.");
+server.use(express.urlencoded({ extended: true }));
+server.use(express.json());
 
 // Middleware loading.
 
+server.use(loggingMiddleware);
+server.use(errorHandlingMiddleware as any);
+server.use(corsMiddleware as any);
+
 try {
+  const staticPath = resolve(__dirname, "public");
   await access(staticPath, constants.F_OK);
   clientRoutes.forEach((r) => server.use(r, express.static(staticPath)));
   logger.info("Server", `Client routes loaded [${clientRoutes.join(", ")}]`);
@@ -28,10 +41,16 @@ try {
   );
 }
 
+useControllerRoutes([CharactersController], server);
+
+// Default error middleware.
+
+server.use(notFoundMiddleware as any);
+
 // Server start.
 
-server.listen(port);
+server.listen(serverPort);
 logger.info(
   "Server",
-  `Startup finished, listening on:\nhttp://${hostname}:${port}`,
+  `Startup finished, listening on:\nhttp://${serverHostname}:${serverPort}`,
 );
