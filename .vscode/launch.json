@@ -2,23 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch: Live Edge",
+      "name": "Debug: Edge",
       "request": "launch",
       "type": "msedge",
       "url": "http://localhost:4000",
       "webRoot": "${workspaceFolder}"
     },
     {
-      "name": "Launch: Nodemon",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
+      "name": "Debug: Server",
       "program": "${workspaceFolder}/dist/server.js",
       "request": "launch",
-      "restart": true,
-      "runtimeExecutable": "nodemon",
       "skipFiles": ["<node_internals>/**"],
       "type": "node",
-      "preLaunchTask": "Webpack: Build"
+      "console": "integratedTerminal"
     }
   ]
 }
