@@ -788,6 +788,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/reflect-metadata@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@types/reflect-metadata@npm:0.1.0"
+  dependencies:
+    reflect-metadata: "npm:*"
+  checksum: 10c0/f996e677759427c30d21b04a829b42c44ce6502f3328aa733127f38000e3a99560c44be8b26544187987abfbbe005488ef22b24612ebc7cb72cdd9fa929e25ae
+  languageName: node
+  linkType: hard
+
 "@types/retry@npm:0.12.2":
   version: 0.12.2
   resolution: "@types/retry@npm:0.12.2"
@@ -1174,8 +1183,12 @@ __metadata:
   resolution: "@wp/server@workspace:src/server"
   dependencies:
     "@types/express": "npm:^5.0.0"
+    "@types/reflect-metadata": "npm:^0.1.0"
     "@wp/common": "workspace:^"
+    chalk: "npm:^5.3.0"
     express: "npm:^4.21.1"
+    reflect-metadata: "npm:^0.2.2"
+    tsyringe: "npm:^4.8.0"
   languageName: unknown
   linkType: soft
 
@@ -1562,6 +1575,13 @@ __metadata:
     ansi-styles: "npm:^4.1.0"
     supports-color: "npm:^7.1.0"
   checksum: 10c0/4a3fef5cc34975c898ffe77141450f679721df9dde00f6c304353fa9c8b571929123b26a0e4617bde5018977eb655b31970c297b91b63ee83bb82aeb04666880
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "chalk@npm:5.3.0"
+  checksum: 10c0/8297d436b2c0f95801103ff2ef67268d362021b8210daf8ddbe349695333eb3610a71122172ff3b0272f1ef2cf7cc2c41fdaa4715f52e49ffe04c56340feed09
   languageName: node
   linkType: hard
 
@@ -4349,7 +4369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.2.2":
+"reflect-metadata@npm:*, reflect-metadata@npm:^0.2.2":
   version: 0.2.2
   resolution: "reflect-metadata@npm:0.2.2"
   checksum: 10c0/1cd93a15ea291e420204955544637c264c216e7aac527470e393d54b4bb075f10a17e60d8168ec96600c7e0b9fcc0cb0bb6e91c3fbf5b0d8c9056f04e6ac1ec2

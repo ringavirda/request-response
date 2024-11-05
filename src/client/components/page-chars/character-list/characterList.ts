@@ -14,6 +14,7 @@ export class CharacterList extends ComponentBase {
   private _ctrlBtnGet: HTMLButtonElement;
   private _ctrlBtnRandom: HTMLButtonElement;
 
+  private _defaultWaifus = ["keqing", "ayaka", "mona", "chiori"];
   private _waifuBuffer: Array<string> = [];
   private _characterList: HTMLDivElement;
 
@@ -28,11 +29,16 @@ export class CharacterList extends ComponentBase {
   }
 
   public override async initialize(): Promise<void> {
-    this._ctrlBtnGet.addEventListener("click", () => {
+    this._ctrlBtnGet.addEventListener("click", async () => {
       const waifus = this.parseInput(this._ctrlInput.value);
-      if (this.compare(waifus, this._waifuBuffer)) return;
+      if (
+        waifus.length === this._waifuBuffer.length &&
+        waifus.every((element, index) => element === this._waifuBuffer[index])
+      ) {
+        return;
+      }
       this._waifuBuffer = waifus;
-      this.loadWaifus(waifus);
+      await this.loadWaifus(waifus);
     });
 
     this._ctrlBtnRandom.addEventListener("click", async () => {
@@ -43,48 +49,31 @@ export class CharacterList extends ComponentBase {
         if (waifuPos.indexOf(next) === -1) waifuPos.push(next);
       }
       const waifus = waifuPos.map((pos) => waifuList[pos]);
-      this.loadWaifus(waifus);
+      await this.loadWaifus(waifus);
       if (this._ctrlInput !== null)
         this._ctrlInput.placeholder = waifus.join(", ");
     });
 
-    await this.addDefaults();
+    this._ctrlInput.placeholder = this._defaultWaifus.join(", ");
+    await this.loadWaifus(this._defaultWaifus);
   }
 
   private clearCharacterList(): void {
     this._characterList.innerHTML = "";
   }
 
-  private async addDefaults() {
-    this._api.rawXMLHttpRequest("keqing", (error, char) => {
-      if (error == "" && char != null) {
-        this.addCharacter(char);
-      } else {
-        this.addError(new Error(error));
-      }
-    });
-    this._api
-      .promiseXMLHttpRequest("chiori")
-      .then((char) => this.addCharacter(char))
-      .catch((error) => this.addError(error));
-    try {
-      const ayaka = await this._api.fetchHttpRequest("ayaka");
-      this.addCharacter(ayaka);
-    } catch (error: unknown) {
-      this.addError(error as Error);
-    }
-  }
-
-  private loadWaifus(waifus: Array<string>): void {
+  private async loadWaifus(waifus: Array<string>): Promise<void> {
     this.clearCharacterList();
-    waifus.forEach(async (waifu) => {
-      try {
-        const char = await this._api.fetchHttpRequest(waifu);
-        this.addCharacter(char);
-      } catch (error: unknown) {
-        this.addError(error as Error);
-      }
-    });
+    await Promise.all(
+      waifus.map(async (waifu) => {
+        try {
+          const char = await this._api.fetchHttpRequest(waifu);
+          this.addCharacter(char);
+        } catch (error: unknown) {
+          this.addError(error as Error);
+        }
+      }),
+    );
   }
 
   private addCharacter(char: Character): void {
@@ -95,7 +84,6 @@ export class CharacterList extends ComponentBase {
     loadComponent(this._characterList, RequestError, error);
   }
 
-  // Helper function to parse string into unique array of targets.
   private parseInput(raw: string | null | undefined): Array<string> {
     if (raw == "" || raw == undefined) return [];
     const rawUnfiltered = raw
@@ -104,12 +92,6 @@ export class CharacterList extends ComponentBase {
       .filter((w) => w != "");
     return rawUnfiltered.filter(
       (waifu, index) => rawUnfiltered.indexOf(waifu) === index,
-    );
-  }
-
-  private compare(a: string[], b: string[]): boolean {
-    return (
-      a.length === b.length && a.every((element, index) => element === b[index])
     );
   }
 }

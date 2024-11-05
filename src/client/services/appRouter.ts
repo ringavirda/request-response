@@ -20,9 +20,10 @@ export class Router {
     this._eventHandlers.set("route", []);
   }
 
-  public registerAnchor(anchor: HTMLElement, routes: Array<Route>) {
+  public registerAnchor(anchor: HTMLElement | null, routes: Array<Route>) {
+    if (anchor == null) throw new Error(`Router: Tried manage null element.`);
     if (this._anchors.has(anchor))
-      throw new Error(`Router: attempted reassign of anchor [${anchor}].`);
+      throw new Error(`Router: Attempted reassign of anchor [${anchor}].`);
     this._anchors.set(anchor, routes);
   }
 

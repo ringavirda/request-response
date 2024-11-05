@@ -7,26 +7,21 @@ import { loadComponent } from "./components/components";
 import { AppHeader } from "./components/app-header/header";
 import { AppNav } from "./components/app-navigation/navigation";
 import { AppFooter } from "./components/app-footer/footer";
-import { CharacterList } from "./components/page-chars/characters/characterList";
+import { CharacterList } from "./components/page-chars/character-list/characterList";
 import { Polling } from "./components/page-pols/polling/polling";
+import { clientRoutes } from "@wp/common/routes";
 
-const rootRoutes: Array<Route> = [
-  {
-    path: "/",
-    component: CharacterList,
-  },
-  {
-    path: "/chars",
-    component: CharacterList,
-  },
-  {
-    path: "/pols",
-    component: Polling,
-  },
-];
+const rootRoutes = clientRoutes
+  .map((r) => {
+    if (r === "/") return { path: r, component: CharacterList } as Route;
+    if (r === "/chars") return { path: r, component: CharacterList } as Route;
+    if (r === "/pols") return { path: r, component: Polling } as Route;
+  })
+  .filter((r) => r !== undefined);
 
 const headerElement = document.querySelector<HTMLDivElement>("app-header");
 const navElement = document.querySelector<HTMLDivElement>("app-nav");
+const rootElement = document.querySelector<HTMLDivElement>("app-root");
 const footerElement = document.querySelector<HTMLDivElement>("app-footer");
 
 await loadComponent(headerElement, AppHeader);
@@ -34,10 +29,8 @@ await loadComponent(navElement, AppNav);
 
 const path = window.location.pathname;
 const rootRouter = container.resolve(Router);
-const rootElement = document.querySelector<HTMLDivElement>("app-root");
-if (rootElement != null) {
-  rootRouter.registerAnchor(rootElement, rootRoutes);
-  rootRouter.changeLocation(path);
-}
+
+rootRouter.registerAnchor(rootElement, rootRoutes);
+rootRouter.changeLocation(path);
 
 await loadComponent(footerElement, AppFooter);
