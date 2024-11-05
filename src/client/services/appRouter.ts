@@ -1,57 +1,60 @@
 import { ComponentBase, loadComponent } from "@client/components/components";
-import { CharacterList } from "@client/components/page-chars/characters/characterList";
-import { Polling } from "@client/components/page-pols/polling/polling";
-import { injectable } from "tsyringe";
+import { singleton } from "tsyringe";
 import { constructor } from "tsyringe/dist/typings/types";
 
-interface Route {
+export interface Route {
   path: string;
   component: unknown;
 }
 
-@injectable()
-export class AppRouter {
-  private _appRoot: string = "app-root";
-  private _anchor: HTMLDivElement;
+type RouterEventCallback = (path: string, model?: any) => void;
+type RouterEvents = "route";
 
-  private readonly _routes: Array<Route> = [
-    {
-      path: "/",
-      component: CharacterList,
-    },
-    {
-      path: "/chars",
-      component: CharacterList,
-    },
-    {
-      path: "/pols",
-      component: Polling,
-    },
-  ];
+@singleton()
+export class Router {
+  private _anchors: Map<HTMLElement, Array<Route>> = new Map();
+  private _eventHandlers: Map<string, Array<RouterEventCallback>> = new Map();
 
   constructor() {
-    const root = document.querySelector<HTMLDivElement>(this._appRoot);
-    if (root === null) throw new Error("App-root uninitialized.");
-    this._anchor = root;
+    window.onhashchange = () => this.changeLocation();
+    this._eventHandlers.set("route", []);
+  }
+
+  public registerAnchor(anchor: HTMLElement, routes: Array<Route>) {
+    if (this._anchors.has(anchor))
+      throw new Error(`Router: attempted reassign of anchor [${anchor}].`);
+    this._anchors.set(anchor, routes);
   }
 
   public async changeLocation(target?: string) {
     const path = target ?? window.location.pathname;
-    const route = this._routes.find(
-      (r) => r.path == path || `${r.path}/` == path,
-    );
-    if (route !== undefined) {
-      this._anchor.innerHTML = "";
+
+    const anchorRoute = this._anchors
+      .entries()
+      .find((a) => a[1].find((r) => r.path == path) !== undefined);
+
+    if (anchorRoute !== undefined) {
+      const anchor = anchorRoute[0];
+      anchor.innerHTML = "";
+      const route = anchorRoute[1].find((r) => r.path == path);
+
+      this.emit("route", path);
       await loadComponent(
-        this._anchor,
-        route.component as constructor<ComponentBase>,
+        anchor,
+        route?.component as constructor<ComponentBase>,
       );
     } else {
-      // Add 404 page.
+      throw new Error(`Unknown route: [${target}]`);
     }
   }
 
-  public getOtherRoutes(route: string) {
-    return [...this._routes].map((r) => r.path).filter((r) => r !== route);
+  public on(name: RouterEvents, callback: RouterEventCallback) {
+    this._eventHandlers.get(name)?.push(callback);
+  }
+
+  private emit(name: RouterEvents, model: any) {
+    if (name === "route") {
+      this._eventHandlers.get("route")?.forEach((handler) => handler(model));
+    }
   }
 }

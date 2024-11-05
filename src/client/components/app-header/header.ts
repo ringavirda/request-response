@@ -2,7 +2,7 @@ import "./header.scss";
 import template from "./header.html";
 import { singleton } from "tsyringe";
 import { ApiService } from "@client/services/charactersApi";
-import { AppRouter } from "@client/services/appRouter";
+import { Router } from "@client/services/appRouter";
 import { ComponentBase } from "../components";
 
 @singleton()
@@ -12,7 +12,7 @@ export class AppHeader extends ComponentBase {
 
   constructor(
     private readonly _api: ApiService,
-    private readonly _router: AppRouter,
+    private readonly _router: Router,
   ) {
     super(template);
 
