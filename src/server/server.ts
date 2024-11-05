@@ -6,15 +6,13 @@ const server = express();
 
 const port = 5000;
 const staticPath = resolve(__dirname, "public");
+const clientRoutes = ["/", "/chars", "/pols"];
 
 try {
   await access(staticPath, constants.F_OK);
-  server.use("/", express.static(staticPath));
-  server.use("/chars", express.static(staticPath));
-  server.use("/pols", express.static(staticPath));
+  clientRoutes.forEach((r) => server.use(r, express.static(staticPath)));
 } catch {
   console.log("No `public` folder was found. Running in pure API mode.");
 }
 
 server.listen(port);
-console.log("Server Started");
