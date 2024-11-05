@@ -14,7 +14,7 @@ export class CharacterList extends ComponentBase {
   private _ctrlBtnGet: HTMLButtonElement;
   private _ctrlBtnRandom: HTMLButtonElement;
 
-  private _defaultWaifus = ["keqing", "ayaka", "mona", "chiori"];
+  private _defaultWaifus = ["keqing", "ayaka", "nilou", "chiori"];
   private _waifuBuffer: Array<string> = [];
   private _characterList: HTMLDivElement;
 
