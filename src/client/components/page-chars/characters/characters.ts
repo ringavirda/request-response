@@ -1,14 +1,14 @@
 import "./characters.scss";
 import template from "./characters.html";
 import { injectable } from "tsyringe";
-import { ApiService } from "@client/services/genshinApi";
+import { ApiService } from "@client/services/charactersApi";
 import { Character } from "@common/models";
 import {
   CharacterCard,
   ComponentBase,
   loadComponent,
   RequestError,
-} from "@common/components";
+} from "@client/components/components";
 
 @injectable()
 export class Characters extends ComponentBase {

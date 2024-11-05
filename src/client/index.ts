@@ -1,12 +1,12 @@
 import "reflect-metadata";
 import "./styles.scss";
 
-import { loadComponent } from "@common/components";
-import { AppHeader } from "./components/header/header";
-import { AppFooter } from "./components/footer/footer";
-import { AppNav } from "./components/navigation/navigation";
 import { container } from "tsyringe";
 import { AppRouter } from "./services/appRouter";
+import { loadComponent } from "./components/components";
+import { AppHeader } from "./components/app-header/header";
+import { AppNav } from "./components/app-navigation/navigation";
+import { AppFooter } from "./components/app-footer/footer";
 
 const headerElement = document.querySelector<HTMLDivElement>("app-header");
 const navElement = document.querySelector<HTMLDivElement>("app-nav");

@@ -13,3 +13,20 @@ body {
 app-root {
   flex: 1;
 }
+
+$vertical-width: 640px;
+$split-width: 1280px;
+
+@mixin button-interact {
+  border: 0;
+
+  &:hover {
+    filter: brightness(115%);
+  }
+  &:active {
+    filter: brightness(95%);
+  }
+  &:focus {
+    outline: none;
+  }
+}

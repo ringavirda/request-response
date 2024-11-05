@@ -1,8 +1,8 @@
 import "./navigation.scss";
 import template from "./navigation.html";
 import { singleton } from "tsyringe";
-import { ComponentBase } from "@common/components";
 import { AppRouter } from "@client/services/appRouter";
+import { ComponentBase } from "../components";
 
 @singleton()
 export class AppNav extends ComponentBase {

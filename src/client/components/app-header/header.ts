@@ -1,9 +1,9 @@
 import "./header.scss";
 import template from "./header.html";
 import { singleton } from "tsyringe";
-import { ApiService } from "@client/services/genshinApi";
-import { ComponentBase } from "@common/components";
+import { ApiService } from "@client/services/charactersApi";
 import { AppRouter } from "@client/services/appRouter";
+import { ComponentBase } from "../components";
 
 @singleton()
 export class AppHeader extends ComponentBase {

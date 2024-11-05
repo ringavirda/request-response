@@ -1,7 +1,7 @@
 import "./polling.scss";
 import template from "./polling.html";
 import { injectable } from "tsyringe";
-import { ComponentBase } from "@common/components";
+import { ComponentBase } from "@client/components/components";
 
 @injectable()
 export class Polling extends ComponentBase {

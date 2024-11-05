@@ -1,7 +1,7 @@
 import "./req_error.scss";
 import template from "./req_error.html";
 import { injectable } from "tsyringe";
-import { ComponentBase } from "@common/components";
+import { ComponentBase } from "@client/components/components";
 
 @injectable()
 export class RequestError extends ComponentBase {

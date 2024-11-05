@@ -6,4 +6,7 @@ declare module "*.html" {
   export default content;
 }
 
+/**
+ * Wrapper for raw image files.
+ */
 declare module "*.png";

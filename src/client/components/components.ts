@@ -1,3 +1,21 @@
+import { container } from "tsyringe";
+import { constructor } from "tsyringe/dist/typings/types";
+
+export async function loadComponent<T extends ComponentBase>(
+  anchor: HTMLElement | null,
+  type: constructor<T>,
+  model?: any,
+): Promise<T> {
+  if (anchor === null)
+    throw new Error(`Uninitialized anchor element for: ${type.name}`);
+
+  const component = container.resolve(type);
+  component.load(anchor);
+  await component.initialize(anchor, model);
+
+  return component;
+}
+
 export abstract class ComponentBase {
   private _element: HTMLElement;
   protected _template: string;
@@ -33,3 +51,6 @@ export abstract class ComponentBase {
     return model as T;
   }
 }
+
+export { CharacterCard } from "./chars-page/character-card/characterCard";
+export { RequestError } from "./chars-page/req-error/reqError";

@@ -1,6 +1,6 @@
-import { Characters } from "@client/components/characters/characters";
-import { Polling } from "@client/components/polling/polling";
-import { ComponentBase, loadComponent } from "@common/components";
+import { ComponentBase, loadComponent } from "@client/components/components";
+import { Characters } from "@client/components/page-chars/characters/characters";
+import { Polling } from "@client/components/page-pols/polling/polling";
 import { injectable } from "tsyringe";
 import { constructor } from "tsyringe/dist/typings/types";
 
