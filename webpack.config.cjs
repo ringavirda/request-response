@@ -26,7 +26,7 @@ const commonConfig = {
             loader: "sass-loader",
             options: {
               sassOptions: {
-                loadPaths: [path.resolve(__dirname, "src/common")],
+                loadPaths: [path.resolve(__dirname, "src/client")],
               },
             },
           },

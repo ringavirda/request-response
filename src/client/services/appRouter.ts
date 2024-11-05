@@ -1,5 +1,5 @@
 import { ComponentBase, loadComponent } from "@client/components/components";
-import { Characters } from "@client/components/page-chars/characters/characters";
+import { CharacterList } from "@client/components/page-chars/characters/characterList";
 import { Polling } from "@client/components/page-pols/polling/polling";
 import { injectable } from "tsyringe";
 import { constructor } from "tsyringe/dist/typings/types";
@@ -17,11 +17,11 @@ export class AppRouter {
   private readonly _routes: Array<Route> = [
     {
       path: "/",
-      component: Characters,
+      component: CharacterList,
     },
     {
       path: "/chars",
-      component: Characters,
+      component: CharacterList,
     },
     {
       path: "/pols",

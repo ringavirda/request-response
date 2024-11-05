@@ -1,4 +1,5 @@
-@use "common.scss";
+@use "styles/variables.scss" as vars;
+@use "styles/mixins.scss" as mx;
 
 .chars-controls {
   display: flex;
@@ -8,7 +9,7 @@
   width: 100%;
   margin: 0 auto 2em auto;
   background-color: darkorange;
-  @media screen and (max-width: common.$vertical-width) {
+  @media screen and (max-width: vars.$vertical-width) {
     flex-direction: column;
   }
 
@@ -37,7 +38,7 @@
     flex-direction: row;
 
     .ctrl-btn-get {
-      @include common.button-interact();
+      @include mx.button-interact();
       margin: 0.5em;
       margin-right: 1em;
       border-radius: 1em;
@@ -47,13 +48,13 @@
       border: 0;
       color: white;
       background-color: #c00;
-      @media screen and (max-width: common.$vertical-width) {
+      @media screen and (max-width: vars.$vertical-width) {
         min-height: 2em;
       }
     }
 
     .ctrl-btn-rnd {
-      @include common.button-interact();
+      @include mx.button-interact();
       font-size: large;
       font-weight: 700;
       margin: 0.5em;
@@ -62,7 +63,7 @@
       padding-inline: 1em;
       color: white;
       background-color: #c00;
-      @media screen and (max-width: common.$vertical-width) {
+      @media screen and (max-width: vars.$vertical-width) {
         min-height: 2em;
       }
     }
@@ -73,7 +74,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media screen and (min-width: common.$split-width) {
+  @media screen and (min-width: vars.$split-width) {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;

@@ -1,22 +1,10 @@
-import "./character_card.scss";
-import template from "./character_card.html";
+import "./character.card.scss";
+import template from "./character.card.html";
+
 import { injectable } from "tsyringe";
 import { Character } from "@common/models";
 import { ComponentBase } from "@client/components/components";
-
-/**
- * Known values representing colors for character's elements.
- */
-export enum VisionColors {
-  pyro = "red",
-  hydro = "blue",
-  dendro = "lightgreen",
-  geo = "orange",
-  cryo = "lightblue",
-  anemo = "teal",
-  electro = "blueviolet",
-  default = "golden",
-}
+import { VisionColors } from "../visionColors";
 
 @injectable()
 export class CharacterCard extends ComponentBase {

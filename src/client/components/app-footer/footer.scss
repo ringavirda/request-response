@@ -1,4 +1,4 @@
-@use "common.scss";
+@use "styles/variables.scss" as vars;
 
 .footer {
   display: flex;
@@ -10,7 +10,7 @@
   background-color: lightgrey;
   border-top: solid darkorange 5px;
 
-  @media screen and (min-width: common.$split-width) {
+  @media screen and (min-width: vars.$split-width) {
     justify-content: flex-end;
   }
 

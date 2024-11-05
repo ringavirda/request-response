@@ -1,5 +1,6 @@
 import "./navigation.scss";
 import template from "./navigation.html";
+
 import { singleton } from "tsyringe";
 import { AppRouter } from "@client/services/appRouter";
 import { ComponentBase } from "../components";

@@ -17,10 +17,10 @@ export async function loadComponent<T extends ComponentBase>(
 }
 
 export abstract class ComponentBase {
-  private _element: HTMLElement;
+  protected _element: HTMLElement;
   protected _template: string;
 
-  constructor(html: string) {
+  protected constructor(html: string) {
     const root = document.createElement("div");
     root.innerHTML = html;
 
@@ -51,6 +51,3 @@ export abstract class ComponentBase {
     return model as T;
   }
 }
-
-export { CharacterCard } from "./chars-page/character-card/characterCard";
-export { RequestError } from "./chars-page/req-error/reqError";

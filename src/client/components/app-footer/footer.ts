@@ -1,6 +1,7 @@
 import "./footer.scss";
 import template from "./footer.html";
 import badge from "../../assets/badge.png";
+
 import { singleton } from "tsyringe";
 import { ComponentBase } from "../components";
 

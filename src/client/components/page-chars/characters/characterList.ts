@@ -1,17 +1,15 @@
-import "./characters.scss";
-import template from "./characters.html";
+import "./character.list.scss";
+import template from "./character.list.html";
+
 import { injectable } from "tsyringe";
 import { ApiService } from "@client/services/charactersApi";
 import { Character } from "@common/models";
-import {
-  CharacterCard,
-  ComponentBase,
-  loadComponent,
-  RequestError,
-} from "@client/components/components";
+import { ComponentBase, loadComponent } from "@client/components/components";
+import { CharacterCard } from "../character-card/characterCard";
+import { RequestError } from "../req-error/reqError";
 
 @injectable()
-export class Characters extends ComponentBase {
+export class CharacterList extends ComponentBase {
   private _ctrlInput: HTMLInputElement;
   private _ctrlBtnGet: HTMLButtonElement;
   private _ctrlBtnRandom: HTMLButtonElement;

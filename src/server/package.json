@@ -1,0 +1,13 @@
+{
+  "name": "@wp/server",
+  "version": "0.1.0",
+  "packageManager": "yarn@4.5.1",
+  "type": "module",
+  "dependencies": {
+    "@wp/common": "workspace:^",
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}
