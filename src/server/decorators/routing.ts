@@ -36,22 +36,24 @@ export const useControllerRoutes = (controllers: any, server: Express) => {
       "routeHandlers",
       controller,
     );
-    const controllerPath = Reflect.getMetadata(
+    let controllerPath = Reflect.getMetadata(
       "controllerRoute",
       controller.constructor,
     );
+    controllerPath = controllerPath === "/" ? "" : controllerPath;
     const methods = Array.from(routeHandlers.keys());
     methods.forEach((method) => {
       const routes = routeHandlers.get(method);
       if (routes !== undefined) {
         const routePaths = Array.from(routes.keys());
         routePaths.forEach((path) => {
+          let routePath = path === "/" ? "" : path;
           const handlers = routes.get(path);
 
-          server[method](controllerPath + path, handlers as any);
+          server[method](controllerPath + routePath, handlers as any);
           logger.info(
             "Server",
-            `Registered new server route: [${method}] ${controllerPath + path}`,
+            `Registered new server route: [${method}] ${controllerPath + routePath}`,
           );
         });
       }

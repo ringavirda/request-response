@@ -12,6 +12,7 @@ import {
 } from "./middleware/errors";
 import { useControllerRoutes } from "./decorators/routing";
 import { CharactersController } from "./controllers/characters";
+import { DefaultController } from "./controllers/default";
 
 export const serverHostname = "localhost";
 export const serverPort = 5000;
@@ -41,7 +42,7 @@ try {
   );
 }
 
-useControllerRoutes([CharactersController], server);
+useControllerRoutes([DefaultController, CharactersController], server);
 
 // Default error middleware.
 

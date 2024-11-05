@@ -1,5 +1,5 @@
-### Cors options
+### Cors options tests
 OPTIONS http://localhost:5000
 
-### Chars test
-GET http://localhost:5000/api/chars
+### Default tests
+GET http://localhost:5000/api
