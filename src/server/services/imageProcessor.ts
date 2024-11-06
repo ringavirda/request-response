@@ -20,7 +20,7 @@ export class ImageProcessor {
     const optimized = await sharp(buffer)
       .resize({ height: resizeHeight, width: resizeWidth, fit: "cover" })
       .flatten({ background: { r: 255, g: 255, b: 255 } })
-      .jpeg()
+      .png()
       .toBuffer();
 
     return optimized;
