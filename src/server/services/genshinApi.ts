@@ -1,17 +1,19 @@
 import { Character } from "@common/models";
 import { container, singleton } from "tsyringe";
 import logger from "./logger";
+import { ImageProcessor } from "./imageProcessor";
 
-export const preloadCharacterMedia = async () => {
+export const preloadAndPreprocessCharacterMedia = async () => {
   const api = container.resolve(GenshinApiService);
   const waifus = await api.fetchCharacterList();
+  const blobs: Array<Blob> = [];
   await Promise.all(
     waifus.map(async (waif) => {
       try {
-        await api.fetchCharacterPortrait(waif);
+        blobs.push(await api.fetchCharacterPortrait(waif));
       } catch {
         try {
-          await api.fetchCharacterCard(waif);
+          blobs.push(await api.fetchCharacterCard(waif));
         } catch {
           logger.warn(
             "Server",
@@ -24,6 +26,17 @@ export const preloadCharacterMedia = async () => {
   logger.info(
     "Server",
     `Finished preloading [${waifus.length}] character media.`,
+  );
+
+  const optimizer = new ImageProcessor();
+  await Promise.all(
+    blobs.map(async (blob) => {
+      optimizer.processBlob(blob);
+    }),
+  );
+  logger.info(
+    "Server",
+    `Finished preprocessing [${blobs.length}] character media.`,
   );
 };
 

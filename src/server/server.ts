@@ -13,7 +13,7 @@ import {
 import { useControllerRoutes } from "./decorators/routing";
 import { CharactersController } from "./controllers/characters";
 import { DefaultController } from "./controllers/default";
-import { preloadCharacterMedia } from "./services/genshinApi";
+import { preloadAndPreprocessCharacterMedia } from "./services/genshinApi";
 
 export const serverHostname = "localhost";
 export const serverPort = 5000;
@@ -58,4 +58,4 @@ logger.info(
 );
 
 // Start preloading.
-preloadCharacterMedia();
+preloadAndPreprocessCharacterMedia();
