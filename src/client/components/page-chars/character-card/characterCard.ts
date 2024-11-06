@@ -1,10 +1,13 @@
 import "./character.card.scss";
 import template from "./character.card.html";
 
-import { injectable } from "tsyringe";
-import { Character } from "@common/models";
+import { inject, injectable } from "tsyringe";
 import { ComponentBase } from "@client/components/components";
 import { VisionColors } from "../visionColors";
+import { ICharsApi } from "@client/services/charsApi";
+
+const portraitResizeHeight = 540;
+const portraitResizeWidth = 480;
 
 @injectable()
 export class CharacterCard extends ComponentBase {
@@ -19,7 +22,7 @@ export class CharacterCard extends ComponentBase {
   private _constElement: HTMLDivElement;
   private _portraitElement: HTMLImageElement;
 
-  constructor() {
+  constructor(@inject("ICharsApi") private _api: ICharsApi) {
     super(template);
 
     this._nameElement = this.getElement(".char-name");
@@ -36,47 +39,52 @@ export class CharacterCard extends ComponentBase {
 
   public override async initialize(
     anchor?: HTMLElement,
-    model?: Character,
+    model?: string,
   ): Promise<void> {
-    model = this.validateModel(model);
+    model = this.modelIsDefined(model);
 
-    // Populate component with plain model values.
-    this._nameElement.textContent = model.name;
-    this._titleElement.textContent = model.title;
-    this._weaponElement.textContent = model.weapon;
-    this._nationElement.textContent = model.nation;
-    this._descElement.textContent = model.description;
-    // Set character's gender while changing styles.
-    this._genderElement.textContent = model.gender;
-    if (model.gender === "Female")
+    const char = await this._api.fetchCharacter(model);
+
+    this._nameElement.textContent = char.name;
+    this._titleElement.textContent = char.title;
+    this._weaponElement.textContent = char.weapon;
+    this._nationElement.textContent = char.nation;
+    this._descElement.textContent = char.description;
+
+    this._genderElement.textContent = char.gender;
+    if (char.gender === "Female")
       this._genderElement.style.backgroundColor = "pink";
-    else if (model.gender == "Male")
+    else if (char.gender == "Male")
       this._genderElement.style.backgroundColor = "aqua";
     else {
       this._genderElement.style.backgroundColor = "gold";
       this._genderElement.textContent = "Descender";
     }
-    // Display rarity as a string of stars.
+
     this._rarityElement.textContent = String.fromCodePoint(0x2b50).repeat(
-      model.rarity,
+      char.rarity,
     );
-    // Determine character element's main color.
+
     let characterColor =
       VisionColors[
-        model.vision.toLocaleLowerCase() as keyof typeof VisionColors
+        char.vision.toLocaleLowerCase() as keyof typeof VisionColors
       ];
     if (characterColor == null) {
       characterColor = VisionColors.default;
     }
-    // Set character's vision element and color.
+
     this._visionElement.style.backgroundColor = characterColor;
-    this._visionElement.textContent = model.vision;
-    // Set character's constellation element and color.
+    this._visionElement.textContent = char.vision;
+
     this._constElement.style.backgroundColor = characterColor;
-    this._constElement.textContent = model.constellation;
-    // Load and set character's portrait, while rendering partial border.
-    this._portraitElement.src = model.portraitUrl;
+    this._constElement.textContent = char.constellation;
+
     const borderStyle = `thick solid ${characterColor}`;
+    this._portraitElement.src = await this._api.fetchCharacterPortrait(
+      model,
+      portraitResizeHeight,
+      portraitResizeWidth,
+    );
     this._portraitElement.style.borderTop = borderStyle;
     this._portraitElement.style.borderRight = borderStyle;
     this._portraitElement.style.borderBottom = borderStyle;

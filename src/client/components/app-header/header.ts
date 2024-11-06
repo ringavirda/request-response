@@ -1,9 +1,9 @@
 import "./header.scss";
 import template from "./header.html";
-import { singleton } from "tsyringe";
-import { ApiService } from "@client/services/charactersApi";
+import { inject, singleton } from "tsyringe";
 import { Router } from "@client/services/appRouter";
 import { ComponentBase } from "../components";
+import { ICharsApi } from "@client/services/charsApi";
 
 @singleton()
 export class AppHeader extends ComponentBase {
@@ -11,7 +11,7 @@ export class AppHeader extends ComponentBase {
   private _titleElement: HTMLAnchorElement;
 
   constructor(
-    private readonly _api: ApiService,
+    @inject("ICharsApi") private readonly _api: ICharsApi,
     private readonly _router: Router,
   ) {
     super(template);
@@ -21,7 +21,7 @@ export class AppHeader extends ComponentBase {
   }
 
   public override async initialize(): Promise<void> {
-    const waifuList = await this._api.fetchWaifuList();
+    const waifuList = await this._api.fetchCharacterList();
     this._waifuListElement.textContent = waifuList.join(", ");
 
     this._titleElement.addEventListener("click", (e) => {

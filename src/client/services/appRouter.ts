@@ -28,8 +28,9 @@ export class Router {
   }
 
   public async changeLocation(target?: string) {
-    const path = target ?? window.location.pathname;
-
+    let path = target ?? window.location.pathname;
+    if (path[path.length - 1] === "/" && path !== "/")
+      path = path.substring(0, path.length - 1);
     const anchorRoute = this._anchors
       .entries()
       .find((a) => a[1].find((r) => r.path == path) !== undefined);

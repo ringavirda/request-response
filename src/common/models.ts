@@ -12,5 +12,4 @@ export interface Character {
   rarity: number;
   constellation: string;
   description: string;
-  portraitUrl: string;
 }

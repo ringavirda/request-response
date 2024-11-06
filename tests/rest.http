@@ -2,4 +2,13 @@
 OPTIONS http://localhost:5000
 
 ### Default tests
-GET http://localhost:5000/api
+GET http://localhost:5000/
+
+### Character tests
+GET http://localhost:5000/api/chars
+###
+GET http://localhost:5000/api/chars/keqing
+###
+GET http://localhost:5000/api/chars/keqing/portrait
+###
+GET http://localhost:5000/api/chars/keqing/icon/side

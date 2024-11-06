@@ -10,8 +10,8 @@ export async function loadComponent<T extends ComponentBase>(
     throw new Error(`Uninitialized anchor element for: ${type.name}`);
 
   const component = container.resolve(type);
-  component.load(anchor);
   await component.initialize(anchor, model);
+  component.load(anchor);
 
   return component;
 }
@@ -28,10 +28,7 @@ export abstract class ComponentBase {
     this._template = html;
   }
 
-  public abstract initialize(
-    anchor?: HTMLElement,
-    model?: object,
-  ): Promise<void>;
+  public abstract initialize(anchor?: HTMLElement, model?: any): Promise<void>;
 
   public load(anchor: HTMLElement): void {
     for (const ch of this._element.childNodes) {
@@ -46,7 +43,7 @@ export abstract class ComponentBase {
     return element as T;
   }
 
-  protected validateModel<T>(model?: T) {
+  protected modelIsDefined<T>(model?: T) {
     if (model === undefined) throw new Error(`Component model is undefined.`);
     return model as T;
   }

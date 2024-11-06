@@ -3,7 +3,7 @@ import express from "express";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
 import logger from "./services/logger";
-import { clientRoutes } from "@wp/common/routes";
+import { clientRoutes } from "@common/routes";
 import { loggingMiddleware } from "./middleware/logging";
 import { corsMiddleware } from "./middleware/cors";
 import {
@@ -26,7 +26,7 @@ server.use(express.json());
 
 // Middleware loading.
 
-server.use(loggingMiddleware);
+server.use(loggingMiddleware as any);
 server.use(errorHandlingMiddleware as any);
 server.use(corsMiddleware as any);
 
@@ -34,7 +34,7 @@ try {
   const staticPath = resolve(__dirname, "public");
   await access(staticPath, constants.F_OK);
   clientRoutes.forEach((r) => server.use(r, express.static(staticPath)));
-  logger.info("Server", `Client routes loaded [${clientRoutes.join(", ")}]`);
+  logger.info("Server", `Client routes loaded: [ ${clientRoutes.join(", ")} ]`);
 } catch {
   logger.warn(
     "Server",

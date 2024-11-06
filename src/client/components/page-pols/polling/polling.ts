@@ -6,15 +6,9 @@ import { ComponentBase } from "@client/components/components";
 
 @injectable()
 export class Polling extends ComponentBase {
-  private _helloElement: HTMLDivElement;
-
   constructor() {
     super(template);
-
-    this._helloElement = this.getElement(".hello");
   }
 
-  public override async initialize(): Promise<void> {
-    this._helloElement.textContent = "Hello from TS!";
-  }
+  public override async initialize(): Promise<void> {}
 }

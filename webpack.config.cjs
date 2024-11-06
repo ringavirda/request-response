@@ -78,7 +78,7 @@ const serverConfig = {
     server: path.resolve(__dirname, "src/server/server.ts"),
   },
   target: "node",
-  externals: [nodeExternals()],
+  externals: [nodeExternals(), { sharp: "commonjs sharp" }],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",

@@ -1,9 +1,8 @@
 import "./character.list.scss";
 import template from "./character.list.html";
 
-import { injectable } from "tsyringe";
-import { ApiService } from "@client/services/charactersApi";
-import { Character } from "@common/models";
+import { inject, injectable } from "tsyringe";
+import { ICharsApi } from "@client/services/charsApi";
 import { ComponentBase, loadComponent } from "@client/components/components";
 import { CharacterCard } from "../character-card/characterCard";
 import { RequestError } from "../req-error/reqError";
@@ -18,7 +17,7 @@ export class CharacterList extends ComponentBase {
   private _waifuBuffer: Array<string> = [];
   private _characterList: HTMLDivElement;
 
-  constructor(private readonly _api: ApiService) {
+  constructor(@inject("ICharsApi") private readonly _api: ICharsApi) {
     super(template);
 
     this._ctrlInput = this.getElement(".ctrl-input");
@@ -42,7 +41,7 @@ export class CharacterList extends ComponentBase {
     });
 
     this._ctrlBtnRandom.addEventListener("click", async () => {
-      const waifuList = await this._api.fetchWaifuList();
+      const waifuList = await this._api.fetchCharacterList();
       const waifuPos: Array<number> = [];
       while (waifuPos.length < 10) {
         const next = Math.floor(Math.random() * waifuList.length);
@@ -66,22 +65,21 @@ export class CharacterList extends ComponentBase {
     this.clearCharacterList();
     await Promise.all(
       waifus.map(async (waifu) => {
-        try {
-          const char = await this._api.fetchHttpRequest(waifu);
-          this.addCharacter(char);
-        } catch (error: unknown) {
-          this.addError(error as Error);
-        }
+        await this.addCharacter(waifu);
       }),
     );
   }
 
-  private addCharacter(char: Character): void {
-    loadComponent(this._characterList, CharacterCard, char);
+  private async addCharacter(char: string): Promise<void> {
+    try {
+      await loadComponent(this._characterList, CharacterCard, char);
+    } catch (error: unknown) {
+      await this.addError(error as Error);
+    }
   }
 
-  private addError(error: Error): void {
-    loadComponent(this._characterList, RequestError, error);
+  private async addError(error: Error): Promise<void> {
+    await loadComponent(this._characterList, RequestError, error);
   }
 
   private parseInput(raw: string | null | undefined): Array<string> {

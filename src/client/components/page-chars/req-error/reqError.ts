@@ -17,7 +17,7 @@ export class RequestError extends ComponentBase {
     anchor?: HTMLDivElement,
     model?: Error,
   ): Promise<void> {
-    model = this.validateModel(model);
+    model = this.modelIsDefined(model);
     this._messageElement.textContent = model.message;
   }
 }

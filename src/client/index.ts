@@ -10,6 +10,9 @@ import { AppFooter } from "./components/app-footer/footer";
 import { CharacterList } from "./components/page-chars/character-list/characterList";
 import { Polling } from "./components/page-pols/polling/polling";
 import { clientRoutes } from "@wp/common/routes";
+import { CharsApi, ICharsApi } from "./services/charsApi";
+
+container.register<ICharsApi>("ICharsApi", CharsApi);
 
 const rootRoutes = clientRoutes
   .map((r) => {
