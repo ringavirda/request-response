@@ -1,4 +1,4 @@
-import { Character } from "@wp/common/models";
+import { Character } from "@common/models";
 import { singleton } from "tsyringe";
 
 interface WaifuCacheEntry {
