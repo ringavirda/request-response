@@ -51,10 +51,10 @@ export class AppNav extends ComponentBase {
     });
 
     this._serverLoadSelectElement.addEventListener("click", (e) =>
-      this.onChangeLoad(e),
+      this.onChangeLoader(e),
     );
     this._genshinLoadSelectElement.addEventListener("click", (e) =>
-      this.onChangeLoad(e),
+      this.onChangeLoader(e),
     );
 
     let saved = window.sessionStorage.getItem(charsLoaderKey);
@@ -67,12 +67,11 @@ export class AppNav extends ComponentBase {
   private onNavigationRoute(e: MouseEvent, router?: Router): void {
     e.preventDefault();
     window.history.pushState({}, "", (e.target as HTMLAnchorElement).href);
-    let path = (e.target as HTMLAnchorElement).pathname;
-    path = path === "/" ? "/chars" : path;
+    const path = (e.target as HTMLAnchorElement).pathname;
     router?.changeLocation(path);
   }
 
-  private onChangeLoad(e: MouseEvent): void {
+  private onChangeLoader(e: MouseEvent): void {
     const id = (e.target as HTMLDivElement).id;
     if (id === null)
       window.sessionStorage.setItem(charsLoaderKey, "server-load");

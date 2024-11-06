@@ -47,7 +47,7 @@ export const useControllerRoutes = (controllers: any, server: Express) => {
       if (routes !== undefined) {
         const routePaths = Array.from(routes.keys());
         routePaths.forEach((path) => {
-          let routePath = path === "/" ? "" : path;
+          const routePath = path === "/" ? "" : path;
           const handlers = routes.get(path);
 
           server[method](controllerPath + routePath, handlers as any);

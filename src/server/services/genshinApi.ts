@@ -1,9 +1,35 @@
 import { Character } from "@common/models";
-import { singleton } from "tsyringe";
+import { container, singleton } from "tsyringe";
+import logger from "./logger";
+
+export const preloadCharacterMedia = async () => {
+  const api = container.resolve(GenshinApiService);
+  const waifus = await api.fetchCharacterList();
+  await Promise.all(
+    waifus.map(async (waif) => {
+      try {
+        await api.fetchCharacterPortrait(waif);
+      } catch {
+        try {
+          await api.fetchCharacterCard(waif);
+        } catch {
+          logger.warn(
+            "Server",
+            `Did not resolve character [${waif}] while preloading media.`,
+          );
+        }
+      }
+    }),
+  );
+  logger.info(
+    "Server",
+    `Finished preloading [${waifus.length}] character media.`,
+  );
+};
 
 interface WaifuCacheEntry {
   character: Character;
-  blobs: Map<string, Blob>;
+  blobs: Map<string, Blob | null>;
 }
 
 @singleton()
@@ -73,13 +99,19 @@ export class GenshinApiService {
   ): Promise<Blob> {
     if (this._waifuCache.has(target)) {
       const blob = this._waifuCache.get(target)?.blobs.get(type);
-      if (blob !== undefined) return blob;
+      if (blob !== undefined && blob !== null) return blob;
+      if (blob === null)
+        throw new Error(`Failed to load media for target [${target}].`);
     }
 
     const urlMedia = `${this._baseApiUrl}/${target}/${type}`;
     const res = await fetch(urlMedia);
-    if (!res.ok)
+    if (!res.ok) {
+      if (this._waifuCache.has(target)) {
+        this._waifuCache.get(target)?.blobs.set(type, null);
+      }
       throw new Error(`Failed to load media for target [${target}].`);
+    }
 
     const blob = await res.blob();
 

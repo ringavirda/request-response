@@ -56,7 +56,7 @@ export class CharactersController {
         isNaN(resizeHeight) ? undefined : resizeHeight,
       );
 
-      return res.status(200).type("image/png").send(optimized);
+      return res.status(200).type("image/jpeg").send(optimized);
     } catch (err: unknown) {
       return res.status(400).json({ badRequest: (err as Error).message });
     }
