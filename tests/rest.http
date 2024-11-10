@@ -2,7 +2,7 @@
 OPTIONS http://localhost:5000
 
 ### Default tests
-GET http://localhost:5000/
+GET http://localhost:5000/api
 
 ### Character tests
 GET http://localhost:5000/api/chars
