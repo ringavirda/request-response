@@ -18,6 +18,7 @@ import { preloadAndPreprocessCharacterMedia } from "./services/genshinApi";
 export const serverHostname = "localhost";
 export const serverPort = 5000;
 export const serverAllowedMethods = ["get", "post", "put", "delete"];
+export const preloadFlag = "--preload";
 
 logger.info("Server", "Startup begin.");
 
@@ -58,4 +59,10 @@ logger.info(
 );
 
 // Start preloading.
-preloadAndPreprocessCharacterMedia();
+if (process.argv.includes(preloadFlag)) {
+  logger.info(
+    "Server",
+    `${preloadFlag} was passed, starting to preload media...`,
+  );
+  preloadAndPreprocessCharacterMedia();
+}

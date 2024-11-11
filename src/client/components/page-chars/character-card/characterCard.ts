@@ -6,8 +6,8 @@ import { ComponentBase } from "@client/components/components";
 import { VisionColors } from "../visionColors";
 import { ICharsApi } from "@client/services/charsApi";
 
-const portraitResizeHeight = 540;
-const portraitResizeWidth = 480;
+const portraitResizeHeight = 540 * 2;
+const portraitResizeWidth = 480 * 2;
 
 @injectable()
 export class CharacterCard extends ComponentBase {

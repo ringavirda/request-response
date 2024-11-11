@@ -50,10 +50,12 @@ export class CharactersController {
       );
 
       const resizeHeight = parseInt(req.query.height as string);
+      const resizeWidth = parseInt(req.query.width as string);
       const optimizer = new ImageProcessor();
       const optimized = await optimizer.processBlob(
         blob,
         isNaN(resizeHeight) ? undefined : resizeHeight,
+        isNaN(resizeWidth) ? undefined : resizeWidth,
       );
 
       return res.status(200).type("image/jpeg").send(optimized);
@@ -74,10 +76,12 @@ export class CharactersController {
       );
 
       const resizeHeight = parseInt(req.query.height as string);
+      const resizeWidth = parseInt(req.query.width as string);
       const optimizer = new ImageProcessor();
       const optimized = await optimizer.processBlob(
         blob,
         isNaN(resizeHeight) ? undefined : resizeHeight,
+        isNaN(resizeWidth) ? undefined : resizeWidth,
       );
 
       return res.status(200).type("image/png").send(optimized);
