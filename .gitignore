@@ -13,6 +13,10 @@
 #!.yarn/cache
 .pnp.*
 
+# node_modules
+node_modules/*
+node_modules
+
 # Ignore redered files
 dist/
 out/
