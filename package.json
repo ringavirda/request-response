@@ -7,7 +7,10 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "start": "nodemon ./dist/server.js"
+    "start": "node ./dist/server.js",
+    "start-preload": "node ./dist/server.js --preload",
+    "serve": "node --watch ./dist/server.js",
+    "serve-preload": "node --watch ./dist/server.js --preload"
   },
   "dependencies": {
     "reflect-metadata": "^0.2.2"
@@ -21,16 +24,13 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "file-loader": "^6.2.0",
-    "globals": "^15.11.0",
     "html-webpack-plugin": "^5.6.3",
-    "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
     "raw-loader": "^4.0.2",
     "sass": "^1.79.5",
     "sass-loader": "^16.0.2",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
-    "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",
     "webpack": "^5.96.1",
