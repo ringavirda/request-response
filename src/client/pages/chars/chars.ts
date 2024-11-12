@@ -14,7 +14,7 @@ export type CharsModel = {
 
 @component("chars-page", template)
 export class CharsPage extends ComponentBase {
-  private _defaultWaifus = ["keqing", "ayaka", "nilou", "chiori"];
+  private _defaultWaifus = ["traveler-dendro", "kokomi", "nilou", "chiori"];
 
   constructor() {
     super(CharsPage);

@@ -31,7 +31,8 @@ export class CharsControls extends ComponentBase {
 
     this._ctrlBtnGet.addEventListener("click", async () => {
       const waifus = this.parseInput(this._ctrlInput.value);
-      await load(waifus);
+      if (waifus.length === 0) await load(model.default);
+      else await load(waifus);
     });
 
     this._ctrlBtnRandom.addEventListener("click", async () => {
