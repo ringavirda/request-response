@@ -11,7 +11,7 @@
   max-width: 640px;
   min-height: 520px;
   @media screen and (min-width: vars.$vertical-width) {
-    margin-left: 5em;
+    margin-left: 8em;
   }
 
   .char-wrapper {
@@ -27,9 +27,10 @@
     }
 
     .char-portrait {
-      object-fit: cover;
+      object-fit: contain;
       max-height: 540px;
       max-width: 340px;
+      min-width: 300px;
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;
@@ -46,7 +47,7 @@
       flex-direction: column;
       justify-content: space-evenly;
       margin-left: 1em;
-      min-width: 50%;
+      min-width: 60%;
       @media screen and (max-width: vars.$vertical-width) {
         margin-left: 0;
       }
@@ -57,14 +58,14 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin-bottom: 0.5em;
+        margin-bottom: 1em;
 
         .char-title-wrapper {
           display: flex;
           margin-inline: 0.5em;
           flex-direction: column;
           justify-content: space-around;
-          max-width: 45%;
+          max-width: 55%;
 
           .char-name {
             font-size: xx-large;
@@ -129,11 +130,10 @@
           justify-content: space-between;
           align-items: center;
           margin-inline: 1em;
-          padding: 0.5em;
-          padding-block: 1em;
+          padding: 1em;
 
           .char-nation {
-            font-size: x-large;
+            font-size: xx-large;
             font-weight: bold;
             padding-right: 0.5em;
             justify-self: flex-start;
@@ -159,8 +159,7 @@
           align-items: center;
           font-size: large;
           border-bottom: thick solid orange;
-          padding: 0.5em;
-          padding-block: 1em;
+          padding: 1em;
           margin-inline: 1em;
 
           .char-preferred {
