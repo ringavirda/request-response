@@ -8,13 +8,14 @@ export async function loadComponent<T extends ComponentBase>(
   anchor: HTMLElement,
   type: constructor<T>,
   model?: any,
+  clean: boolean = false,
 ): Promise<T> {
   if (anchor === null)
     throw new Error(`Uninitialized anchor element for: ${type.name}`);
 
   const component = container.resolve(type);
   await component.initialize(anchor, model);
-  component.loadInto(anchor);
+  component.loadInto(anchor, clean);
 
   return component;
 }
@@ -37,7 +38,8 @@ export abstract class ComponentBase {
 
   public abstract initialize(anchor?: HTMLElement, model?: any): Promise<void>;
 
-  public loadInto(anchor: HTMLElement): void {
+  public loadInto(anchor: HTMLElement, clean: boolean = false): void {
+    if (clean) anchor.innerHTML = "";
     for (const node of this._element.childNodes) {
       anchor.appendChild(node);
     }
@@ -46,10 +48,11 @@ export abstract class ComponentBase {
   public async loadComponent<T extends ComponentBase>(
     type: constructor<T>,
     model?: any,
+    clean: boolean = false,
   ): Promise<T> {
     const selector = Reflect.getMetadata(selectorMetaSymbol, type) as string;
     const element = this.getElement(selector);
-    return await loadComponent(element, type, model);
+    return await loadComponent(element, type, model, clean);
   }
 
   protected getElement<T extends HTMLElement>(selector: string) {

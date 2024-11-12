@@ -44,10 +44,10 @@ export class CharsControls extends ComponentBase {
       }
       const waifus = waifuPos.map((pos) => waifuList[pos]);
       this._ctrlInput.value = "";
-      await load(waifus);
       if (this._ctrlInput !== null) {
         this._ctrlInput.placeholder = waifus.join(", ");
       }
+      await load(waifus);
     });
 
     const defaultPlaceholder = model.default.join(", ");

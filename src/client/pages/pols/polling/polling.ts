@@ -3,7 +3,7 @@ import template from "./polling.html";
 
 import { component, ComponentBase } from "@client/framework/components";
 
-@component("polling", template)
+@component("polling", template, true)
 export class Polling extends ComponentBase {
   constructor() {
     super(Polling);

@@ -1,4 +1,5 @@
 import { Character } from "@common/models";
+import { commonHostname, commonPort } from "@common/routes";
 import { singleton } from "tsyringe";
 
 export interface ICharsApi {
@@ -24,7 +25,8 @@ interface CharsCacheEntry {
 
 @singleton()
 export class CharsApi implements ICharsApi {
-  private _baseApiUrl: string = "http://localhost:5000/api/chars" as const;
+  private _baseApiUrl: string =
+    `http://${commonHostname}:${commonPort}/api/chars` as const;
   private _charsCache: Map<string, CharsCacheEntry> = new Map();
 
   public async fetchCharacterList(): Promise<Array<string>> {
@@ -35,7 +37,6 @@ export class CharsApi implements ICharsApi {
   }
 
   public async fetchCharacter(id: string): Promise<Character> {
-    console.log("CharsApi used.");
     if (this._charsCache.has(id))
       return this._charsCache.get(id)?.character as Character;
 
@@ -158,7 +159,6 @@ export class CharsGenshinApi implements ICharsApi {
   }
 
   public async fetchCharacter(id: string): Promise<Character> {
-    console.log("CharsGenshinApi used.");
     if (this._waifuCashe.has(id))
       return this._waifuCashe.get(id)?.[0] as Character;
 

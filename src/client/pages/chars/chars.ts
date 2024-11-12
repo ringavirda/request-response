@@ -1,6 +1,6 @@
 import { ComponentBase, component } from "@client/framework/components";
-import { CharsList } from "./chars-list/charsList";
-import { CharsControls } from "./chars-controls/charsControls";
+import { CharsList } from "./list/charsList";
+import { CharsControls } from "./controls/charsControls";
 
 const template = [
   "<chars-controls></chars-controls>",

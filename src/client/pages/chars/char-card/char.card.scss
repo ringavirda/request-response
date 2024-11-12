@@ -11,7 +11,7 @@
   max-width: 640px;
   min-height: 520px;
   @media screen and (min-width: vars.$vertical-width) {
-    margin-left: 8em;
+    margin-left: 5em;
   }
 
   .char-wrapper {
@@ -27,10 +27,10 @@
     }
 
     .char-portrait {
-      object-fit: contain;
+      object-fit: cover;
       max-height: 540px;
       max-width: 340px;
-      min-width: 300px;
+      min-width: 280px;
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;

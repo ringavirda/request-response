@@ -15,6 +15,8 @@ import { AppNav } from "./nav/nav";
 import { AppFooter } from "./footer/footer";
 import { CharsPage } from "@client/pages/chars/chars";
 import { PolsPage } from "@client/pages/pols/pols";
+import { LoadingSpinner } from "./loading";
+import { HomePage } from "@client/pages/home/home";
 
 const rootSelector = "app-root";
 const pageRouter = "page-router";
@@ -41,7 +43,7 @@ export class App extends ComponentBase {
 
     const appRoutes: Array<Route> = clientRoutes
       .map((r) => {
-        if (r === "/") return { path: r, component: CharsPage };
+        if (r === "/") return { path: r, component: HomePage };
         if (r === "/chars") return { path: r, component: CharsPage };
         if (r === "/pols") return { path: r, component: PolsPage };
       })
@@ -58,6 +60,7 @@ export class App extends ComponentBase {
       throw new Error(
         `Root tag wasn't found - app bounding failed. Should be: ${rootSelector}`,
       );
-    await loadComponent(rootElement, App);
+    await loadComponent(rootElement, LoadingSpinner);
+    await loadComponent(rootElement, App, null, true);
   }
 }

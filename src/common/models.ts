@@ -1,8 +1,4 @@
-/**
- * Model for a waifu. Used to filter out unnecessary properties from the server's
- * response object.
- */
-export interface Character {
+export type Character = {
   name: string;
   title: string;
   vision: string;
@@ -12,4 +8,4 @@ export interface Character {
   rarity: number;
   constellation: string;
   description: string;
-}
+};

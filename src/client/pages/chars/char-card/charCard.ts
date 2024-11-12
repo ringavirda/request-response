@@ -7,7 +7,7 @@ import { VisionColors } from "../visionColors";
 import { ICharsApi } from "@client/services/charsApi";
 
 const portraitResizeHeight = 540 * 2;
-const portraitResizeWidth = 480 * 2;
+const portraitResizeWidth = 340 * 2;
 
 @component("chars-card", template, true)
 export class CharsCard extends ComponentBase {

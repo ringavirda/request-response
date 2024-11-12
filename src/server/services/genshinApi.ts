@@ -106,7 +106,7 @@ export class GenshinApiService {
     return await this.fetchCharacterMedia(`icon${iconType}`, target);
   }
 
-  private async fetchCharacterMedia(
+  public async fetchCharacterMedia(
     type: string,
     target: string,
   ): Promise<Blob> {

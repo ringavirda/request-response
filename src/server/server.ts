@@ -3,7 +3,7 @@ import express from "express";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
 import logger from "./services/logger";
-import { clientRoutes } from "@common/routes";
+import { clientRoutes, commonHostname, commonPort } from "@common/routes";
 import { loggingMiddleware } from "./middleware/logging";
 import { corsMiddleware } from "./middleware/cors";
 import {
@@ -15,8 +15,8 @@ import { CharactersController } from "./controllers/characters";
 import { DefaultController } from "./controllers/default";
 import { preloadAndPreprocessCharacterMedia } from "./services/genshinApi";
 
-export const serverHostname = "localhost";
-export const serverPort = 5000;
+export const serverHostname = commonHostname;
+export const serverPort = commonPort;
 export const serverAllowedMethods = ["get", "post", "put", "delete"];
 export const preloadFlag = "--preload";
 
@@ -25,8 +25,6 @@ logger.info("Server", "Startup begin.");
 const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
-
-// Middleware loading.
 
 server.use(loggingMiddleware as any);
 server.use(errorHandlingMiddleware as any);
@@ -46,11 +44,7 @@ try {
 
 useControllerRoutes([DefaultController, CharactersController] as any, server);
 
-// Default error middleware.
-
 server.use(notFoundMiddleware as any);
-
-// Server start.
 
 server.listen(serverPort);
 logger.info(
@@ -58,7 +52,6 @@ logger.info(
   `Startup finished, listening on:\nhttp://${serverHostname}:${serverPort}`,
 );
 
-// Start preloading.
 if (process.argv.includes(preloadFlag)) {
   logger.info(
     "Server",

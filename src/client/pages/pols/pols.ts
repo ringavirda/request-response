@@ -10,7 +10,7 @@ export class PolsPage extends ComponentBase {
   }
 
   public override async initialize(): Promise<void> {
-    if (this._element.innerHTML == "\n")
+    if (this._element.innerHTML == "\n" || this._element.innerHTML === "")
       this._element.innerHTML = this._template;
 
     await this.loadComponent(Polling);
