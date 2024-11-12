@@ -2,14 +2,12 @@ import { controller, route } from "@server/decorators/routing";
 import { GenshinApiService } from "@server/services/genshinApi";
 import { ImageProcessor } from "@server/services/imageProcessor";
 import { Request, Response } from "express";
-import { inject, singleton } from "tsyringe";
+import { singleton } from "tsyringe";
 
 @singleton()
 @controller("/api/chars")
 export class CharactersController {
-  constructor(
-    @inject(GenshinApiService) private readonly _api: GenshinApiService,
-  ) {}
+  constructor(private readonly _api: GenshinApiService) {}
 
   @route("get", "/")
   public async getCharacterList(
