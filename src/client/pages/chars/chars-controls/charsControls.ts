@@ -42,9 +42,11 @@ export class CharsControls extends ComponentBase {
         if (waifuPos.indexOf(next) === -1) waifuPos.push(next);
       }
       const waifus = waifuPos.map((pos) => waifuList[pos]);
+      this._ctrlInput.value = "";
       await load(waifus);
-      if (this._ctrlInput !== null)
+      if (this._ctrlInput !== null) {
         this._ctrlInput.placeholder = waifus.join(", ");
+      }
     });
 
     const defaultPlaceholder = model.default.join(", ");
