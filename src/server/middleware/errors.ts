@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 export const notFoundMiddleware = (
   request: Request,
   response: Response,
-  // next: NextFunction,
+  next: NextFunction,
 ) => {
   const error = new Error(
     `The bottom of the middleware stack was reached. Returning with (404) code.`,
@@ -12,6 +12,7 @@ export const notFoundMiddleware = (
   logger.error("Request", error.message);
 
   return response.status(404).json({ error: error.message });
+  next();
 };
 
 export const errorHandlingMiddleware = (

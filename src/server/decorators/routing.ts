@@ -1,35 +1,43 @@
 import logger from "@server/services/logger";
 import { Express, RequestHandler } from "express";
+import { container } from "tsyringe";
 
 export type RouteAllowedMethods = "get" | "post" | "put" | "delete";
 export type RouteHandlersMap = Map<
   RouteAllowedMethods,
-  Map<string, RequestHandler>
+  Map<string, Array<RequestHandler>>
 >;
 
-export const controller = (controllerRoute: string = "/api") => {
-  return (constructor: Function) => {
+export function controller<T extends typeof Object.prototype>(
+  controllerRoute: string = "/api",
+) {
+  return function (constructor: T) {
     Reflect.defineMetadata("controllerRoute", controllerRoute, constructor);
   };
-};
+}
 
-export const route = (
+export function route(
   method: RouteAllowedMethods,
   path: string = "",
   ...middleware: Array<RequestHandler>
-) => {
-  return (target: any, key: string, desc: PropertyDescriptor) => {
+) {
+  return function (target: object, key: string, desc: PropertyDescriptor) {
     const routeHandlers: RouteHandlersMap =
       Reflect.getMetadata("routeHandlers", target) ?? new Map();
     if (!routeHandlers.has(method)) routeHandlers.set(method, new Map());
 
-    routeHandlers.get(method)?.set(path, [...middleware, desc.value] as any);
+    routeHandlers
+      .get(method)
+      ?.set(path, [...middleware, desc.value as RequestHandler]);
 
     Reflect.defineMetadata("routeHandlers", routeHandlers, target);
   };
-};
+}
 
-export const useControllerRoutes = (controllers: any, server: Express) => {
+export function useControllerRoutes<T extends typeof Object>(
+  controllers: Array<T>,
+  server: Express,
+) {
   for (const ctr of controllers) {
     const controller = new ctr();
     const routeHandlers: RouteHandlersMap = Reflect.getMetadata(
@@ -49,14 +57,18 @@ export const useControllerRoutes = (controllers: any, server: Express) => {
         routePaths.forEach((path) => {
           const routePath = path === "/" ? "" : path;
           const handlers = routes.get(path);
-
-          server[method](controllerPath + routePath, handlers as any);
-          logger.info(
-            "Server",
-            `Registered new server route: [${method}] ${controllerPath + routePath}`,
-          );
+          if (handlers !== undefined) {
+            const context = container.resolve(ctr);
+            handlers.forEach((handler) => {
+              server[method](controllerPath + routePath, handler.bind(context));
+            });
+            logger.info(
+              "Server",
+              `Registered new server route: [${method}] ${controllerPath + routePath}`,
+            );
+          }
         });
       }
     });
   }
-};
+}

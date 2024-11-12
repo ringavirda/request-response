@@ -44,7 +44,7 @@ try {
   );
 }
 
-useControllerRoutes([DefaultController, CharactersController], server);
+useControllerRoutes([DefaultController, CharactersController] as any, server);
 
 // Default error middleware.
 
