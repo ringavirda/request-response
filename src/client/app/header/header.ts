@@ -1,11 +1,13 @@
 import "./header.scss";
 import template from "./header.html";
-import { inject, singleton } from "tsyringe";
-import { Router } from "@client/services/appRouter";
-import { ComponentBase } from "../components";
+
+import { inject } from "tsyringe";
+
+import { Router } from "@client/framework/routing";
+import { component, ComponentBase } from "@client/framework/components";
 import { ICharsApi } from "@client/services/charsApi";
 
-@singleton()
+@component("app-header", template)
 export class AppHeader extends ComponentBase {
   private _waifuListElement: HTMLDivElement;
   private _titleElement: HTMLAnchorElement;
@@ -14,7 +16,7 @@ export class AppHeader extends ComponentBase {
     @inject("ICharsApi") private readonly _api: ICharsApi,
     private readonly _router: Router,
   ) {
-    super(template);
+    super(AppHeader);
 
     this._waifuListElement = this.getElement(".waifu-list");
     this._titleElement = this.getElement(".title");

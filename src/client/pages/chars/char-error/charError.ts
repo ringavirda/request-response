@@ -1,14 +1,14 @@
-import "./req_error.scss";
-import template from "./req_error.html";
-import { injectable } from "tsyringe";
-import { ComponentBase } from "@client/components/components";
+import "./char.error.scss";
+import template from "./char.error.html";
 
-@injectable()
-export class RequestError extends ComponentBase {
+import { component, ComponentBase } from "@client/framework/components";
+
+@component("char-error", template, true)
+export class CharError extends ComponentBase {
   private _messageElement: HTMLDivElement;
 
   constructor() {
-    super(template);
+    super(CharError);
 
     this._messageElement = this.getElement(".err-message");
   }
@@ -18,6 +18,7 @@ export class RequestError extends ComponentBase {
     model?: Error,
   ): Promise<void> {
     model = this.modelIsDefined(model);
+
     this._messageElement.textContent = model.message;
   }
 }

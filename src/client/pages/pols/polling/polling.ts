@@ -1,13 +1,12 @@
 import "./polling.scss";
 import template from "./polling.html";
 
-import { injectable } from "tsyringe";
-import { ComponentBase } from "@client/components/components";
+import { component, ComponentBase } from "@client/framework/components";
 
-@injectable()
+@component("polling", template)
 export class Polling extends ComponentBase {
   constructor() {
-    super(template);
+    super(Polling);
   }
 
   public override async initialize(): Promise<void> {}

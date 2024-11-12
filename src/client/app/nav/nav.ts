@@ -1,9 +1,10 @@
-import "./navigation.scss";
-import template from "./navigation.html";
+import "./nav.scss";
+import template from "./nav.html";
 
-import { container, singleton } from "tsyringe";
-import { Router } from "@client/services/appRouter";
-import { ComponentBase } from "../components";
+import { container } from "tsyringe";
+
+import { Router } from "@client/framework/routing";
+import { component, ComponentBase } from "@client/framework/components";
 import {
   CharsApi,
   CharsGenshinApi,
@@ -12,7 +13,7 @@ import {
 
 const charsLoaderKey: string = "chars-loader";
 
-@singleton()
+@component("app-nav", template)
 export class AppNav extends ComponentBase {
   private _toCharactersElement: HTMLAnchorElement;
   private _toPolsElement: HTMLAnchorElement;
@@ -21,7 +22,7 @@ export class AppNav extends ComponentBase {
   private _genshinLoadSelectElement: HTMLDivElement;
 
   constructor(private readonly _router: Router) {
-    super(template);
+    super(AppNav);
 
     this._toCharactersElement = this.getElement("[id='chars']");
     this._toPolsElement = this.getElement("[id='pols']");

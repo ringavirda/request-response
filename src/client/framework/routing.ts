@@ -1,14 +1,15 @@
-import { ComponentBase, loadComponent } from "@client/components/components";
 import { singleton } from "tsyringe";
+
+import { ComponentBase, loadComponent } from "./components";
 import { constructor } from "tsyringe/dist/typings/types";
 
-export interface Route {
+export type Route = {
   path: string;
-  component: unknown;
-}
+  component: constructor<ComponentBase>;
+};
 
-type RouterEventCallback = (path: string, model?: any) => void;
-type RouterEvents = "route";
+export type RouterEventCallback = (path: string, model?: any) => void;
+export type RouterEvents = "route";
 
 @singleton()
 export class Router {
@@ -31,20 +32,18 @@ export class Router {
     let path = target ?? window.location.pathname;
     if (path[path.length - 1] === "/" && path !== "/")
       path = path.substring(0, path.length - 1);
-    const anchorRoute = this._anchors
-      .entries()
-      .find((a) => a[1].find((r) => r.path == path) !== undefined);
+    const anchorRoute = Array.from(this._anchors).find(
+      (a) => a[1].find((r) => r.path == path) !== undefined,
+    );
 
     if (anchorRoute !== undefined) {
       const anchor = anchorRoute[0];
       anchor.innerHTML = "";
       const route = anchorRoute[1].find((r) => r.path == path);
-
-      this.emit("route", path);
-      await loadComponent(
-        anchor,
-        route?.component as constructor<ComponentBase>,
-      );
+      if (route !== undefined) {
+        this.emit("route", path);
+        await loadComponent(anchor, route.component);
+      }
     } else {
       throw new Error(`Unknown route: [${target}]`);
     }

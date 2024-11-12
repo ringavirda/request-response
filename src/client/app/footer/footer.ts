@@ -2,15 +2,14 @@ import "./footer.scss";
 import template from "./footer.html";
 import badge from "../../assets/fallen_badge.png";
 
-import { singleton } from "tsyringe";
-import { ComponentBase } from "../components";
+import { component, ComponentBase } from "@client/framework/components";
 
-@singleton()
+@component("app-footer", template)
 export class AppFooter extends ComponentBase {
   private _badgeElement: HTMLImageElement;
 
   constructor() {
-    super(template);
+    super(AppFooter);
 
     this._badgeElement = this.getElement(".badge");
   }

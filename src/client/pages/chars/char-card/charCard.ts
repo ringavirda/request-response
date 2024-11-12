@@ -1,16 +1,16 @@
-import "./character.card.scss";
-import template from "./character.card.html";
+import "./char.card.scss";
+import template from "./char.card.html";
 
-import { inject, injectable } from "tsyringe";
-import { ComponentBase } from "@client/components/components";
+import { inject } from "tsyringe";
+import { component, ComponentBase } from "@client/framework/components";
 import { VisionColors } from "../visionColors";
 import { ICharsApi } from "@client/services/charsApi";
 
 const portraitResizeHeight = 540 * 2;
 const portraitResizeWidth = 480 * 2;
 
-@injectable()
-export class CharacterCard extends ComponentBase {
+@component("chars-card", template, true)
+export class CharsCard extends ComponentBase {
   private _nameElement: HTMLDivElement;
   private _titleElement: HTMLDivElement;
   private _weaponElement: HTMLDivElement;
@@ -23,7 +23,7 @@ export class CharacterCard extends ComponentBase {
   private _portraitElement: HTMLImageElement;
 
   constructor(@inject("ICharsApi") private _api: ICharsApi) {
-    super(template);
+    super(CharsCard);
 
     this._nameElement = this.getElement(".char-name");
     this._titleElement = this.getElement(".char-title");
