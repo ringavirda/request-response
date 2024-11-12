@@ -29,11 +29,7 @@
     .char-portrait {
       object-fit: cover;
       max-height: 540px;
-      min-height: 540px;
-      max-width: 480px;
-      min-width: 320px;
-      width: auto;
-      height: auto;
+      max-width: 340px;
       filter: drop-shadow(5px 5px 4px dimgrey);
       border-radius: 2em;
       background-color: white;
@@ -62,7 +58,7 @@
 
         .char-title-wrapper {
           display: flex;
-          margin-left: 1em;
+          margin-inline: 0.5em;
           flex-direction: column;
           justify-content: space-around;
 
