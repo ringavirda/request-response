@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
-import { constructor } from "tsyringe/dist/typings/types";
 
 import { ComponentBase, loadComponent } from "./components";
+import { constructor } from "tsyringe/dist/typings/types";
 
 export type Route = {
   path: string;
@@ -15,20 +15,24 @@ export type RouterEvents = "route";
 export class Router {
   private _anchors: Map<HTMLElement, Array<Route>> = new Map();
   private _eventHandlers: Map<string, Array<RouterEventCallback>> = new Map();
+  private _restrictedVisibility: Map<HTMLElement, Array<string>> = new Map();
 
   constructor() {
     window.onhashchange = () => this.changeLocation();
     this._eventHandlers.set("route", []);
   }
 
-  public registerAnchor(anchor: HTMLElement | null, routes: Array<Route>) {
+  public registerAnchor(
+    anchor: HTMLElement | null,
+    routes: Array<Route>,
+  ): void {
     if (anchor == null) throw new Error(`Router: Tried manage null element.`);
     if (this._anchors.has(anchor))
       throw new Error(`Router: Attempted reassign of anchor [${anchor}].`);
     this._anchors.set(anchor, routes);
   }
 
-  public async changeLocation(target?: string) {
+  public async changeLocation(target?: string): Promise<void> {
     let path = target ?? window.location.pathname;
     if (path[path.length - 1] === "/" && path !== "/")
       path = path.substring(0, path.length - 1);
@@ -49,13 +53,25 @@ export class Router {
     }
   }
 
-  public on(name: RouterEvents, callback: RouterEventCallback) {
+  public restrictVisibility(element: HTMLElement, routes: Array<string>) {
+    this._restrictedVisibility.set(element, routes);
+  }
+
+  public on(name: RouterEvents, callback: RouterEventCallback): void {
     this._eventHandlers.get(name)?.push(callback);
   }
 
-  private emit(name: RouterEvents, model: any) {
+  private emit(name: RouterEvents, path: string, model?: any): void {
     if (name === "route") {
-      this._eventHandlers.get("route")?.forEach((handler) => handler(model));
+      this._eventHandlers
+        .get("route")
+        ?.forEach((handler) => handler(path, model));
+
+      for (const [element, routes] of this._restrictedVisibility) {
+        if (routes.includes(path)) {
+          element.style.display = "flex";
+        } else element.style.display = "none";
+      }
     }
   }
 }

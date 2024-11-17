@@ -19,7 +19,6 @@ export class AppNav extends ComponentBase {
 
   private _serverLoadSelectElement: HTMLDivElement;
   private _genshinLoadSelectElement: HTMLDivElement;
-  private _changerElement: HTMLDivElement;
 
   constructor(private readonly _router: Router) {
     super(AppNav);
@@ -29,12 +28,13 @@ export class AppNav extends ComponentBase {
     this._serverLoadSelectElement = this.getElement("[id='server-load']");
     this._genshinLoadSelectElement = this.getElement("[id='genshin-load']");
 
-    this._changerElement = this.getElement<HTMLDivElement>(".nav-load-select");
+    _router.restrictVisibility(this.getElement(".nav-load-select"), [
+      "/chars",
+      "/chars/",
+    ]);
   }
 
   public override async initialize(): Promise<void> {
-    this.toggleChangeLoader();
-
     this._toCharactersElement.addEventListener("click", (e) =>
       this.onNavigationRoute(e, this._router),
     );
@@ -53,7 +53,6 @@ export class AppNav extends ComponentBase {
         this._toPolsElement.classList.remove("selected");
         this._toCharactersElement.classList.remove("selected");
       }
-      this.toggleChangeLoader();
     });
 
     this._serverLoadSelectElement.addEventListener("click", (e) =>
@@ -77,19 +76,6 @@ export class AppNav extends ComponentBase {
     router?.changeLocation(path);
     if (document.activeElement instanceof HTMLElement)
       document.activeElement.blur();
-  }
-
-  private toggleChangeLoader(): void {
-    let show = false;
-    if (
-      window.location.pathname === "/chars" ||
-      window.location.pathname === "/chars/"
-    ) {
-      show = true;
-    }
-
-    if (show) this._changerElement.style.display = "flex";
-    else this._changerElement.style.display = "none";
   }
 
   private onChangeLoader(e: MouseEvent): void {
