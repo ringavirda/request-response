@@ -1,5 +1,6 @@
-import logger from "@server/services/logger";
 import { Request, Response, NextFunction } from "express";
+
+import { logger } from "@server/framework";
 
 const allowedStatusCodes = [200, 204, 304];
 
@@ -16,6 +17,5 @@ export const loggingMiddleware = (
       );
     }
   });
-
-  next();
+  return next();
 };

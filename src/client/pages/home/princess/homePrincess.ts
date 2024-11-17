@@ -1,8 +1,8 @@
 import "./home.princess.scss";
 import template from "./home.princess.html";
 
-import { component, ComponentBase } from "@client/framework/components";
 import { commonHostname, commonPort } from "@common/routes";
+import { component, ComponentBase } from "@client/framework";
 
 type PrincessBuffer = {
   blobUrl: string;

@@ -1,8 +1,9 @@
 import "reflect-metadata";
+
 import express from "express";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
-import logger from "./services/logger";
+
 import { clientRoutes, commonHostname, commonPort } from "@common/routes";
 import { loggingMiddleware } from "./middleware/logging";
 import { corsMiddleware } from "./middleware/cors";
@@ -10,10 +11,9 @@ import {
   errorHandlingMiddleware,
   notFoundMiddleware,
 } from "./middleware/errors";
-import { useControllerRoutes } from "./decorators/routing";
 import { CharactersController } from "./controllers/characters";
 import { DefaultController } from "./controllers/default";
-import { preloadAndPreprocessCharacterMedia } from "./services/genshinApi";
+import { logger, useControllerRoutes } from "./framework";
 
 export const serverHostname = commonHostname;
 export const serverPort = commonPort;
@@ -26,9 +26,8 @@ const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 
-server.use(loggingMiddleware as any);
-server.use(errorHandlingMiddleware as any);
-server.use(corsMiddleware as any);
+server.use(corsMiddleware);
+server.use(loggingMiddleware);
 
 try {
   const staticPath = resolve(__dirname, "public");
@@ -42,8 +41,11 @@ try {
   );
 }
 
-useControllerRoutes([DefaultController, CharactersController] as any, server);
+useControllerRoutes(DefaultController, server);
+DefaultController.preloadPrincess();
+useControllerRoutes(CharactersController, server);
 
+server.use(errorHandlingMiddleware);
 server.use(notFoundMiddleware as any);
 
 server.listen(serverPort);
@@ -57,5 +59,5 @@ if (process.argv.includes(preloadFlag)) {
     "Server",
     `${preloadFlag} was passed, starting to preload media...`,
   );
-  preloadAndPreprocessCharacterMedia();
+  await CharactersController.preloadAndPreprocessMedia();
 }

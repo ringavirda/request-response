@@ -1,4 +1,4 @@
-import { component, ComponentBase } from "@client/framework/components";
+import { component, ComponentBase } from "@client/framework";
 
 const template = ["<app-loading></app-loading>"].join("\n");
 

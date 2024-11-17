@@ -2,20 +2,23 @@ import "./app.scss";
 
 import { container } from "tsyringe";
 
+import { clientRoutes } from "@common/routes";
 import {
   component,
   ComponentBase,
   loadComponent,
-} from "@client/framework/components";
-import { Route, Router } from "@client/framework/routing";
+  Route,
+  Router,
+} from "@client/framework";
 import { CharsApi, ICharsApi } from "@client/services/charsApi";
-import { clientRoutes } from "@common/routes";
+
 import { AppHeader } from "./header/header";
 import { AppNav } from "./nav/nav";
 import { AppFooter } from "./footer/footer";
+import { LoadingSpinner } from "./loading";
+
 import { CharsPage } from "@client/pages/chars/chars";
 import { PolsPage } from "@client/pages/pols/pols";
-import { LoadingSpinner } from "./loading";
 import { HomePage } from "@client/pages/home/home";
 
 const rootSelector = "app-root";

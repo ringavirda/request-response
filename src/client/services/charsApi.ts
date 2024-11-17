@@ -43,7 +43,7 @@ export class CharsApi implements ICharsApi {
     const res = await fetch(`${this._baseApiUrl}/${id}`);
     if (!res.ok)
       throw new Error(
-        `Wasn't able to load target [${id}]. Reason: ${res.statusText}`,
+        `Wasn't able to load character [${id}]. Reason: ${res.statusText}`,
       );
 
     const char = await res.json();

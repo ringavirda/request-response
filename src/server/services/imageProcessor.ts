@@ -1,10 +1,12 @@
 import sharp from "sharp";
+import { singleton } from "tsyringe";
 
 interface ProcessorBufferItem {
   blob: Blob;
   optimized: Buffer;
 }
 
+@singleton()
 export class ImageProcessor {
   private _processedBuffer: Array<ProcessorBufferItem> = [];
 

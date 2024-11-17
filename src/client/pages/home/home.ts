@@ -1,4 +1,5 @@
-import { component, ComponentBase } from "@client/framework/components";
+import { component, ComponentBase } from "@client/framework";
+
 import { HomeCard } from "./card/homeCard";
 import { HomePrincess } from "./princess/homePrincess";
 

@@ -68,12 +68,12 @@ export abstract class ComponentBase {
   }
 }
 
-export function component<T extends constructor<ComponentBase>>(
+export function component<T extends ComponentBase>(
   selector: string,
   template: string,
   scoped: boolean = false,
 ) {
-  return function (target: T) {
+  return function (target: constructor<T>) {
     Reflect.defineMetadata(selectorMetaSymbol, selector, target);
     Reflect.defineMetadata(templateMetaSymbol, template, target);
 

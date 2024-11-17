@@ -1,6 +1,3 @@
-/**
- * Known values representing colors for character's elements.
- */
 export const VisionColors = {
   pyro: "red",
   hydro: "blue",

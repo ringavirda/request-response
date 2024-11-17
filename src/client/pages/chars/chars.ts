@@ -1,4 +1,5 @@
-import { ComponentBase, component } from "@client/framework/components";
+import { ComponentBase, component } from "@client/framework";
+
 import { CharsList } from "./list/charsList";
 import { CharsControls } from "./controls/charsControls";
 

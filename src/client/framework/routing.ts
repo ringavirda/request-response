@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
+import { constructor } from "tsyringe/dist/typings/types";
 
 import { ComponentBase, loadComponent } from "./components";
-import { constructor } from "tsyringe/dist/typings/types";
 
 export type Route = {
   path: string;

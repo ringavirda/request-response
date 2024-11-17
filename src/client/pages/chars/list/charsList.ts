@@ -1,11 +1,8 @@
 import "./chars.list.scss";
 import template from "./chars.list.html";
 
-import {
-  component,
-  ComponentBase,
-  loadComponent,
-} from "@client/framework/components";
+import { component, ComponentBase, loadComponent } from "@client/framework";
+
 import { CharsCard } from "../char-card/charCard";
 import { CharError } from "../char-error/charError";
 import { CharsModel } from "../chars";

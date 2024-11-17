@@ -2,39 +2,19 @@ import "./char.card.scss";
 import template from "./char.card.html";
 
 import { inject } from "tsyringe";
-import { component, ComponentBase } from "@client/framework/components";
-import { VisionColors } from "../visionColors";
+
+import { component, ComponentBase } from "@client/framework";
 import { ICharsApi } from "@client/services/charsApi";
 
-const portraitResizeHeight = 540 * 2;
-const portraitResizeWidth = 340 * 2;
+import { VisionColors } from "../visionColors";
 
 @component("chars-card", template, true)
 export class CharsCard extends ComponentBase {
-  private _nameElement: HTMLDivElement;
-  private _titleElement: HTMLDivElement;
-  private _weaponElement: HTMLDivElement;
-  private _nationElement: HTMLDivElement;
-  private _descElement: HTMLDivElement;
-  private _genderElement: HTMLDivElement;
-  private _rarityElement: HTMLDivElement;
-  private _visionElement: HTMLDivElement;
-  private _constElement: HTMLDivElement;
-  private _portraitElement: HTMLImageElement;
+  private readonly _portraitResizeHeight = 540 * 2;
+  private readonly _portraitResizeWidth = 340 * 2;
 
   constructor(@inject("ICharsApi") private _api: ICharsApi) {
     super(CharsCard);
-
-    this._nameElement = this.getElement(".char-name");
-    this._titleElement = this.getElement(".char-title");
-    this._weaponElement = this.getElement(".char-weapon");
-    this._nationElement = this.getElement(".char-nation");
-    this._descElement = this.getElement(".char-description");
-    this._genderElement = this.getElement(".char-gender");
-    this._rarityElement = this.getElement(".char-rarity");
-    this._visionElement = this.getElement(".char-vision");
-    this._constElement = this.getElement(".char-const");
-    this._portraitElement = this.getElement(".char-portrait");
   }
 
   public override async initialize(
@@ -45,25 +25,25 @@ export class CharsCard extends ComponentBase {
 
     const char = await this._api.fetchCharacter(model);
 
-    this._nameElement.textContent = char.name;
-    this._titleElement.textContent = char.title;
-    this._weaponElement.textContent = char.weapon;
-    this._nationElement.textContent = char.nation;
-    this._descElement.textContent = char.description;
+    this.getElement(".char-name").textContent = char.name;
+    this.getElement(".char-title").textContent = char.title;
+    this.getElement(".char-weapon").textContent = char.weapon;
+    this.getElement(".char-nation").textContent = char.nation;
+    this.getElement(".char-description").textContent = char.description;
 
-    this._genderElement.textContent = char.gender;
-    if (char.gender === "Female")
-      this._genderElement.style.backgroundColor = "pink";
+    const genderElement = this.getElement(".char-gender");
+    genderElement.textContent = char.gender;
+    if (char.gender === "Female") genderElement.style.backgroundColor = "pink";
     else if (char.gender == "Male")
-      this._genderElement.style.backgroundColor = "aqua";
+      genderElement.style.backgroundColor = "aqua";
     else {
-      this._genderElement.style.backgroundColor = "gold";
-      this._genderElement.textContent = "Descender";
+      genderElement.style.backgroundColor = "gold";
+      genderElement.textContent = "Descender";
     }
 
-    this._rarityElement.textContent = String.fromCodePoint(0x2b50).repeat(
-      char.rarity,
-    );
+    this.getElement(".char-rarity").textContent = String.fromCodePoint(
+      0x2b50,
+    ).repeat(char.rarity);
 
     let characterColor =
       VisionColors[
@@ -73,20 +53,23 @@ export class CharsCard extends ComponentBase {
       characterColor = VisionColors.default;
     }
 
-    this._visionElement.style.backgroundColor = characterColor;
-    this._visionElement.textContent = char.vision;
+    const visionElement = this.getElement(".char-vision");
+    visionElement.style.backgroundColor = characterColor;
+    visionElement.textContent = char.vision;
 
-    this._constElement.style.backgroundColor = characterColor;
-    this._constElement.textContent = char.constellation;
+    const constElement = this.getElement(".char-const");
+    constElement.style.backgroundColor = characterColor;
+    constElement.textContent = char.constellation;
 
+    const portraitElement = this.getElement<HTMLImageElement>(".char-portrait");
     const borderStyle = `thick solid ${characterColor}`;
-    this._portraitElement.src = await this._api.fetchCharacterPortrait(
+    portraitElement.src = await this._api.fetchCharacterPortrait(
       model,
-      portraitResizeHeight,
-      portraitResizeWidth,
+      this._portraitResizeHeight,
+      this._portraitResizeWidth,
     );
-    this._portraitElement.style.borderTop = borderStyle;
-    this._portraitElement.style.borderRight = borderStyle;
-    this._portraitElement.style.borderBottom = borderStyle;
+    portraitElement.style.borderTop = borderStyle;
+    portraitElement.style.borderRight = borderStyle;
+    portraitElement.style.borderBottom = borderStyle;
   }
 }

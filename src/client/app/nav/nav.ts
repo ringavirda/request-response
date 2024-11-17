@@ -3,8 +3,7 @@ import template from "./nav.html";
 
 import { container } from "tsyringe";
 
-import { Router } from "@client/framework/routing";
-import { component, ComponentBase } from "@client/framework/components";
+import { component, ComponentBase, Router } from "@client/framework";
 import {
   CharsApi,
   CharsGenshinApi,

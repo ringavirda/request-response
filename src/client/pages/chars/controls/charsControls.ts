@@ -3,8 +3,9 @@ import template from "./chars.controls.html";
 
 import { inject } from "tsyringe";
 
+import { component, ComponentBase } from "@client/framework";
 import { ICharsApi } from "@client/services/charsApi";
-import { component, ComponentBase } from "@client/framework/components";
+
 import { CharsModel } from "../chars";
 
 @component("chars-controls", template, true)

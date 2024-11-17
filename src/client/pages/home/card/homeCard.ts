@@ -1,7 +1,7 @@
 import "./home.card.scss";
 import template from "./home.card.html";
 
-import { component, ComponentBase } from "@client/framework/components";
+import { component, ComponentBase } from "@client/framework";
 
 @component("home-card", template, true)
 export class HomeCard extends ComponentBase {
