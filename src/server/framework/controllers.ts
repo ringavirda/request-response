@@ -26,7 +26,7 @@ export type AllowedContentTypes =
 export abstract class ControllerBase {
   protected ok(
     res: Response,
-    payload: any,
+    payload?: any,
     contentType: AllowedContentTypes = "application/json",
   ) {
     return this.send(res, 200, payload, contentType);
@@ -115,13 +115,13 @@ export function useControllerRoutes<T extends ControllerBase>(
 
         if (handlers !== undefined) {
           handlers.forEach((handler) => {
-            const endpoint = (
+            const endpoint = async (
               req: Request,
               res: Response,
               next: NextFunction,
             ) => {
               try {
-                return handler.call(context, req, res, next);
+                return await handler.call(context, req, res, next);
               } catch (err: unknown) {
                 const message = (err as Error).message;
                 if (err instanceof BadRequestError) {

@@ -3,10 +3,9 @@ import template from "./char.card.html";
 
 import { inject } from "tsyringe";
 
+import { VisionColors } from "@common/models";
 import { component, ComponentBase } from "@client/framework";
 import { ICharsApi } from "@client/services/charsApi";
-
-import { VisionColors } from "../visionColors";
 
 @component("chars-card", template, true)
 export class CharsCard extends ComponentBase {

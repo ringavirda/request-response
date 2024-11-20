@@ -14,6 +14,8 @@ import {
 import { CharactersController } from "./controllers/characters";
 import { DefaultController } from "./controllers/default";
 import { logger, useControllerRoutes } from "./framework";
+import { PollingController } from "./controllers/polling";
+import { MapSerializationFixes } from "@common/fixes";
 
 export const serverHostname = commonHostname;
 export const serverPort = commonPort;
@@ -24,7 +26,11 @@ logger.info("Server", "Startup begin.");
 
 const server = express();
 server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
+server.use(
+  express.json({
+    reviver: MapSerializationFixes.reviver,
+  }),
+);
 
 server.use(corsMiddleware);
 server.use(loggingMiddleware);
@@ -44,9 +50,10 @@ try {
 useControllerRoutes(DefaultController, server);
 DefaultController.preloadPrincess();
 useControllerRoutes(CharactersController, server);
+useControllerRoutes(PollingController, server);
 
 server.use(errorHandlingMiddleware);
-server.use(notFoundMiddleware as any);
+server.use(notFoundMiddleware);
 
 server.listen(serverPort);
 logger.info(

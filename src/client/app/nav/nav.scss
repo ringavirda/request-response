@@ -23,6 +23,7 @@
     border-radius: 0.5em;
     font-size: x-large;
     font-weight: bold;
+    font-family: verdana;
     text-decoration: none;
     text-align: center;
     background-color: darkmagenta;
@@ -35,19 +36,21 @@
   }
 
   .nav-load-select {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
     overflow: hidden;
-    border-radius: 1em;
+    border-radius: 2rem;
+    align-items: center;
 
     @media screen and (min-width: vars.$vertical-width) {
-      margin-inline: 1em;
+      margin-inline: 1rem;
       margin-left: auto;
     }
 
     .load-label {
       @include mx.button-interact();
 
-      padding: 1em;
+      padding: 1rem;
       font-size: larger;
       font-weight: bold;
       font-family: sans-serif;
@@ -56,12 +59,30 @@
       background-color: darkred;
       width: 80px;
 
-      cursor: pointer;
       transition: background-color 0.2s;
 
       &:not(:last-of-type) {
         border-right: 3px solid red;
       }
+    }
+  }
+
+  .nav-pol-create {
+    @include mx.button-interact();
+
+    justify-self: flex-end;
+    align-self: center;
+    font-size: x-large;
+    font-weight: bold;
+    font-family: sans-serif;
+    padding: 1rem;
+    color: white;
+    background-color: darkred;
+    border-radius: 2rem;
+
+    @media screen and (min-width: vars.$vertical-width) {
+      margin-inline: 2rem;
+      margin-left: auto;
     }
   }
 }
@@ -72,6 +93,5 @@
 }
 
 .selected-load {
-  outline: solid darkorange 3px;
   background-color: red !important;
 }

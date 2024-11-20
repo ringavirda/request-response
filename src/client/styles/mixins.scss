@@ -1,5 +1,6 @@
 @mixin button-interact {
   border: 0;
+  cursor: pointer;
 
   &:hover {
     filter: brightness(115%);

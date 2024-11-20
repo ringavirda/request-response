@@ -10,7 +10,12 @@ export const loggingMiddleware = (
   next: NextFunction,
 ) => {
   response.on("finish", () => {
-    if (!allowedStatusCodes.includes(response.statusCode)) {
+    if (allowedStatusCodes.includes(response.statusCode)) {
+      logger.info(
+        "Request",
+        `[${request.method}] to ${request.url} from ${request.socket.remoteAddress} returned status (${response.statusCode}).`,
+      );
+    } else {
       logger.warn(
         "Request",
         `[${request.method}] to ${request.url} from ${request.socket.remoteAddress} returned with bad status (${response.statusCode}).`,

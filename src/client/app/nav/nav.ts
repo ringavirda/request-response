@@ -9,6 +9,7 @@ import {
   CharsGenshinApi,
   ICharsApi,
 } from "@client/services/charsApi";
+import { PolCreate } from "@client/pages/pols/pol-create/polCreate";
 
 const charsLoaderKey: string = "chars-loader";
 
@@ -19,6 +20,7 @@ export class AppNav extends ComponentBase {
 
   private _serverLoadSelectElement: HTMLDivElement;
   private _genshinLoadSelectElement: HTMLDivElement;
+  private _polCreateElement: HTMLDivElement;
 
   constructor(private readonly _router: Router) {
     super(AppNav);
@@ -27,10 +29,15 @@ export class AppNav extends ComponentBase {
     this._toPolsElement = this.getElement("[id='pols']");
     this._serverLoadSelectElement = this.getElement("[id='server-load']");
     this._genshinLoadSelectElement = this.getElement("[id='genshin-load']");
+    this._polCreateElement = this.getElement("[id='pol-create']");
 
     _router.restrictVisibility(this.getElement(".nav-load-select"), [
       "/chars",
       "/chars/",
+    ]);
+    _router.restrictVisibility(this.getElement(".nav-pol-create"), [
+      "/pols",
+      "/pols/",
     ]);
   }
 
@@ -67,6 +74,10 @@ export class AppNav extends ComponentBase {
     if (saved === "genshin-load")
       this._genshinLoadSelectElement.dispatchEvent(new Event("click"));
     else this._serverLoadSelectElement.dispatchEvent(new Event("click"));
+
+    this._polCreateElement.addEventListener("click", () =>
+      this._router.displayPopover(PolCreate),
+    );
   }
 
   private onNavigationRoute(e: MouseEvent, router?: Router): void {

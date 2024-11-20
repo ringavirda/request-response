@@ -7,12 +7,9 @@ export function notFoundMiddleware(
   res: Response,
   // next: NextFunction,
 ) {
-  const error = new Error(
-    `The bottom of the middleware stack was reached. Returning with (404) code.`,
-  );
-  logger.error("Request", error.message);
-
-  res.status(404).json({ error: error.message });
+  res.status(404).json({
+    error: `The bottom of the middleware stack was reached. Returning with (404) code.`,
+  });
 }
 
 export function errorHandlingMiddleware(
@@ -21,7 +18,7 @@ export function errorHandlingMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  if (req.xhr) {
+  if (err !== undefined) {
     const errMessage = `A server error occurred! Reason: ${err.message}`;
     logger.error("Request", errMessage);
     res.status(500).json({ error: errMessage });

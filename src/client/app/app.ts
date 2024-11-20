@@ -16,7 +16,6 @@ import { AppHeader } from "./header/header";
 import { AppNav } from "./nav/nav";
 import { AppFooter } from "./footer/footer";
 import { LoadingSpinner } from "./loading";
-
 import { CharsPage } from "@client/pages/chars/chars";
 import { PolsPage } from "@client/pages/pols/pols";
 import { HomePage } from "@client/pages/home/home";

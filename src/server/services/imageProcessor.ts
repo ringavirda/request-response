@@ -20,9 +20,9 @@ export class ImageProcessor {
 
     const buffer = Buffer.from(await blob.arrayBuffer());
     const optimized = await sharp(buffer)
+      .trim()
       .resize({ height: resizeHeight, width: resizeWidth, fit: "cover" })
       .flatten({ background: { r: 255, g: 255, b: 255 } })
-      .trim()
       .jpeg()
       .toBuffer();
 

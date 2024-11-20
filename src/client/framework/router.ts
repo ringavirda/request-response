@@ -2,6 +2,7 @@ import { singleton } from "tsyringe";
 
 import { ComponentBase, loadComponent } from "./components";
 import { constructor } from "tsyringe/dist/typings/types";
+import { PopoverWrapper } from "./components/popover/popover";
 
 export type Route = {
   path: string;
@@ -15,11 +16,20 @@ export type RouterEvents = "route";
 export class Router {
   private _anchors: Map<HTMLElement, Array<Route>> = new Map();
   private _eventHandlers: Map<string, Array<RouterEventCallback>> = new Map();
+
   private _restrictedVisibility: Map<HTMLElement, Array<string>> = new Map();
+
+  private _popover: ComponentBase | null = null;
+  private _popoverEscListener = async (ev: KeyboardEvent) => {
+    if (ev.key === "Escape") {
+      await this.removePopover();
+    }
+  };
 
   constructor() {
     window.onhashchange = () => this.changeLocation();
     this._eventHandlers.set("route", []);
+    this._popoverEscListener = this._popoverEscListener.bind(this);
   }
 
   public registerAnchor(
@@ -30,6 +40,35 @@ export class Router {
     if (this._anchors.has(anchor))
       throw new Error(`Router: Attempted reassign of anchor [${anchor}].`);
     this._anchors.set(anchor, routes);
+  }
+
+  public async displayPopover(innerComponent: constructor<ComponentBase>) {
+    if (this._popover !== null)
+      throw new Error("There can be only one popover at a time!");
+    else {
+      this._popover = await loadComponent(
+        document.body,
+        PopoverWrapper,
+        innerComponent,
+      );
+      document.addEventListener("keyup", this._popoverEscListener);
+    }
+  }
+
+  public async removePopover() {
+    if (this._popover === null)
+      throw new Error("Cannot unload popover that doesn't exist");
+    else {
+      const popElement = document.querySelector<HTMLElement>(
+        this._popover.selector,
+      )!;
+      popElement.style.animation = "fade-out 0.5s";
+      await new Promise((r) => setTimeout(r, 400));
+
+      document.body.removeChild(popElement);
+      document.removeEventListener("keyup", this._popoverEscListener);
+      this._popover = null;
+    }
   }
 
   public async changeLocation(target?: string): Promise<void> {

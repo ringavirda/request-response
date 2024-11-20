@@ -83,9 +83,9 @@ export class CharactersController extends ControllerBase {
       req.params.id,
       iconType as string,
     );
-    const icon = await this._imageOptimizer.blobToBuffer(blob);
+    const icon = await this._imageOptimizer.processBlob(blob);
 
-    return this.ok(res, icon, "image/png");
+    return this.ok(res, icon, "image/jpeg");
   }
 
   public static async preloadAndPreprocessMedia() {

@@ -115,7 +115,7 @@ export class CharsApi implements ICharsApi {
     return blobUrl;
   }
   public async fetchCharacterIcon(id: string, type?: string): Promise<string> {
-    const iconType = type !== "" ? `icon-${type}` : "icon";
+    const iconType = type !== "" ? `icon?type=${type}` : "icon";
 
     if (this._charsCache.get(id)?.mediaUrls.has(iconType)) {
       const cached = this._charsCache.get(id)?.mediaUrls;

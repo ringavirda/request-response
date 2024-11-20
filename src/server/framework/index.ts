@@ -11,3 +11,5 @@ export {
 } from "./controllers";
 
 export { NotFoundError, BadRequestError } from "./errors/requests";
+
+export { validateBody } from "./validation";
