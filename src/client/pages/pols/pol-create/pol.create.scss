@@ -11,7 +11,7 @@
   width: fit-content;
   min-width: 80vw;
 
-  @media screen and (min-width: vars.$vertical-width) {
+  @media screen and (min-width: vars.$split-width) {
     min-width: 60vw;
   }
 

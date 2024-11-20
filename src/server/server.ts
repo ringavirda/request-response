@@ -5,7 +5,7 @@ import { Server } from "socket.io";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
 
-import { clientRoutes, commonHostname, commonPort } from "@common/routes";
+import { clientRoutes, commonPort, serverListeningHost } from "@common/routes";
 import { loggingMiddleware } from "./middleware/logging";
 import { corsMiddleware } from "./middleware/cors";
 import {
@@ -18,7 +18,7 @@ import { logger, useControllerRoutes } from "./framework";
 import { PollingController } from "./controllers/polling";
 import { MapSerializationFixes } from "@common/fixes";
 
-export const serverHostname = commonHostname;
+export const serverHostname = serverListeningHost;
 export const serverPort = commonPort;
 export const serverAllowedMethods = ["get", "post", "put", "delete"];
 export const preloadFlag = "--preload";

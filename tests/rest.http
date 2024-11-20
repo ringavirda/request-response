@@ -40,3 +40,6 @@ Content-Type: application/json
 {
     "title": "Keqing supremacy"
 }
+
+### Sockets
+GET http://localhost:5000/socket.io/socket.io.js

@@ -18,16 +18,16 @@ export class PolsPage extends ComponentBase {
   ) {
     super(PolsPage);
 
-    this._polsWrapperElement = this.getElement<HTMLDivElement>(".pols-wrapper");
+    this._polsWrapperElement = this.getElement(".pols-wrapper");
   }
 
   public accessor Pols: Array<WaifuPol> = null!;
 
   public override async initialize(): Promise<void> {
-    if (this._element.innerHTML == "\n" || this._element.innerHTML === "")
-      this._element.innerHTML = this._template;
-
     await this.reloadPols();
+
+    if (this._element.childNodes.length === 0)
+      this._element.appendChild(this._polsWrapperElement);
   }
 
   public async reloadPols(): Promise<void> {
@@ -39,10 +39,11 @@ export class PolsPage extends ComponentBase {
       this._polsWrapperElement.classList.add("no-pols");
       this._polsWrapperElement.textContent = "There aren't any pols yet!";
     } else {
-      this.Pols.forEach(async (pol) => {
+      for (const pol of this.Pols) {
         await loadComponent(this._polsWrapperElement, PolWaifu, pol);
-      });
-      this.Pols.forEach((pol) => this._values.emit("update", pol));
+      }
+
+      // this.Pols.forEach((pol) => this._values.emit("update", pol));
     }
   }
 }

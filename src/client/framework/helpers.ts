@@ -5,7 +5,7 @@ export async function fetchCurrentIp(): Promise<string> {
 }
 
 export async function toSha256String(input: string): Promise<string> {
-  const hashBuffer = await window.crypto.subtle.digest(
+  const hashBuffer = await crypto.subtle.digest(
     "SHA-256",
     new TextEncoder().encode(input),
   );

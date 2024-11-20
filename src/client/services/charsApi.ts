@@ -1,6 +1,7 @@
+import { singleton } from "tsyringe";
+
 import { Character } from "@common/models";
 import { commonHostname, commonPort } from "@common/routes";
-import { singleton } from "tsyringe";
 
 export interface ICharsApi {
   fetchCharacterList(): Promise<Array<string>>;
