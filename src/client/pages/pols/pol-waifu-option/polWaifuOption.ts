@@ -39,7 +39,7 @@ export class PolWaifuOption extends ComponentBase {
       this._values.incOptionValue(model.polTitle, model.charName);
     });
 
-    this._values.on("changed", (pol) => {
+    this._values.on("update", (pol) => {
       if (pol.title === model.polTitle) {
         const value = this._values.getOptionValue(
           model.polTitle,

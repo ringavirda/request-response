@@ -52,6 +52,10 @@ export class PolWaifu extends ComponentBase {
   ): Promise<void> {
     this._polModel = this.modelIsDefined(model);
 
+    if (this._values.isAlreadyVoted(this._polModel.title))
+      this._polRetractElement.classList.remove("pol-waifu-disabled");
+    else this._polRetractElement.classList.add("pol-waifu-disabled");
+
     this._polRetractElement.addEventListener(
       "click",
       (async () => {
@@ -83,6 +87,8 @@ export class PolWaifu extends ComponentBase {
           if (this._values.isAlreadyVoted(pol.title))
             this._polRetractElement.classList.remove("pol-waifu-disabled");
           else this._polRetractElement.classList.add("pol-waifu-disabled");
+
+          this._values.emit("update", pol);
         }
       }).bind(this),
     );

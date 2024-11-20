@@ -42,7 +42,7 @@ export class PolsPage extends ComponentBase {
       this.Pols.forEach(async (pol) => {
         await loadComponent(this._polsWrapperElement, PolWaifu, pol);
       });
-      this.Pols.forEach((pol) => this._values.emit("changed", pol));
+      this.Pols.forEach((pol) => this._values.emit("update", pol));
     }
   }
 }

@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "reflect-metadata": "^0.2.2",
+    "socket.io-client": "^4.8.1",
     "tsyringe": "^4.8.0"
   }
 }

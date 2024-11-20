@@ -1,21 +1,42 @@
 import { singleton } from "tsyringe";
 
 import { fetchCurrentIp, toSha256String } from "@client/framework";
-import { WaifuPol } from "@common/models";
+import { WaifuPol, WaifuPolUpdateDto } from "@common/models";
+import { io, Socket } from "socket.io-client";
+import { MapSerializationFixes } from "@common/fixes";
 
-export type PolValueEvents = "changed";
+export type PolValueEvents = "changed" | "update";
 export type PolValueEventListener = (pol: WaifuPol) => void;
 
 @singleton()
 export class PolsValues {
   private _pols: Array<WaifuPol> = [];
+
   private _ipHash: string = "";
+  private _socket: Socket;
 
   private readonly _maxValue: number = 90;
   private readonly _minValue: number = 10;
 
   private _listeners: Map<PolValueEvents, Array<PolValueEventListener>> =
     new Map();
+
+  constructor() {
+    this._socket = io();
+    this._socket.on("pols-update", (json: string) => {
+      const polUpdate = JSON.parse(
+        json,
+        MapSerializationFixes.reviver,
+      ) as WaifuPolUpdateDto;
+
+      const index = this._pols.findIndex(
+        (pol) => pol.title === polUpdate.title,
+      );
+      if (index !== -1) this._pols[index].options = polUpdate.options;
+
+      this.emit("update", polUpdate);
+    });
+  }
 
   public async registerPols(pols: Array<WaifuPol>): Promise<void> {
     this._pols = pols;
@@ -31,7 +52,7 @@ export class PolsValues {
     }
   }
 
-  public emit(event: PolValueEvents, model: WaifuPol) {
+  public emit(event: PolValueEvents, model: WaifuPolUpdateDto) {
     this._listeners.get(event)?.forEach((listener) => listener(model));
   }
 

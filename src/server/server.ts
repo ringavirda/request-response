@@ -1,6 +1,7 @@
 import "reflect-metadata";
 
 import express from "express";
+import { Server } from "socket.io";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
 
@@ -25,6 +26,7 @@ export const preloadFlag = "--preload";
 logger.info("Server", "Startup begin.");
 
 const server = express();
+
 server.use(express.urlencoded({ extended: true }));
 server.use(
   express.json({
@@ -55,7 +57,7 @@ useControllerRoutes(PollingController, server);
 server.use(errorHandlingMiddleware);
 server.use(notFoundMiddleware);
 
-server.listen(serverPort);
+const running = server.listen(serverPort);
 logger.info(
   "Server",
   `Startup finished, listening on:\nhttp://${serverHostname}:${serverPort}`,
@@ -68,3 +70,11 @@ if (process.argv.includes(preloadFlag)) {
   );
   await CharactersController.preloadAndPreprocessMedia();
 }
+
+const io = new Server(running);
+
+io.on("connection", (socket) => {
+  socket.on("pols-change", (json: string) => {
+    socket.broadcast.emit("pols-update", json);
+  });
+});
