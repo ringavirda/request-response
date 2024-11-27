@@ -11,4 +11,34 @@ GET http://localhost:5000/api/chars/keqing
 ###
 GET http://localhost:5000/api/chars/keqing/portrait
 ###
-GET http://localhost:5000/api/chars/keqing/icon/side
+GET http://localhost:5000/api/chars/keqing/icon?type=side
+
+### Pols tests
+GET http://localhost:5000/api/pols
+###
+POST http://localhost:5000/api/pols
+Content-Type: application/json
+
+{
+    "title": "Keqing supremacy",
+    "description": "",
+    "options": ["keqing",[]]
+}
+###
+PUT http://localhost:5000/api/pols
+Content-Type: application/json
+
+{
+    "title": "Keqing supremacy",
+    "options": ["keqing",["one", "two"]]
+}
+###
+DELETE http://localhost:5000/api/pols
+Content-Type: application/json
+
+{
+    "title": "Keqing supremacy"
+}
+
+### Sockets
+GET http://localhost:5000/socket.io/socket.io.js

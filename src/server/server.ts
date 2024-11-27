@@ -1,36 +1,41 @@
 import "reflect-metadata";
+
 import express from "express";
+import { Server } from "socket.io";
 import { access, constants } from "fs/promises";
 import { resolve } from "path";
-import logger from "./services/logger";
-import { clientRoutes } from "@common/routes";
+
+import { clientRoutes, commonPort, serverListeningHost } from "@common/routes";
 import { loggingMiddleware } from "./middleware/logging";
 import { corsMiddleware } from "./middleware/cors";
 import {
   errorHandlingMiddleware,
   notFoundMiddleware,
 } from "./middleware/errors";
-import { useControllerRoutes } from "./decorators/routing";
 import { CharactersController } from "./controllers/characters";
 import { DefaultController } from "./controllers/default";
-import { preloadAndPreprocessCharacterMedia } from "./services/genshinApi";
+import { logger, useControllerRoutes } from "./framework";
+import { PollingController } from "./controllers/polling";
+import { MapSerializationFixes } from "@common/fixes";
 
-export const serverHostname = "localhost";
-export const serverPort = 5000;
+export const serverHostname = serverListeningHost;
+export const serverPort = commonPort;
 export const serverAllowedMethods = ["get", "post", "put", "delete"];
 export const preloadFlag = "--preload";
 
 logger.info("Server", "Startup begin.");
 
 const server = express();
+
 server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
+server.use(
+  express.json({
+    reviver: MapSerializationFixes.reviver,
+  }),
+);
 
-// Middleware loading.
-
-server.use(loggingMiddleware as any);
-server.use(errorHandlingMiddleware as any);
-server.use(corsMiddleware as any);
+server.use(corsMiddleware);
+server.use(loggingMiddleware);
 
 try {
   const staticPath = resolve(__dirname, "public");
@@ -44,25 +49,32 @@ try {
   );
 }
 
-useControllerRoutes([DefaultController, CharactersController], server);
+useControllerRoutes(DefaultController, server);
+DefaultController.preloadPrincess();
+useControllerRoutes(CharactersController, server);
+useControllerRoutes(PollingController, server);
 
-// Default error middleware.
+server.use(errorHandlingMiddleware);
+server.use(notFoundMiddleware);
 
-server.use(notFoundMiddleware as any);
-
-// Server start.
-
-server.listen(serverPort);
+const running = server.listen(serverPort);
 logger.info(
   "Server",
   `Startup finished, listening on:\nhttp://${serverHostname}:${serverPort}`,
 );
 
-// Start preloading.
 if (process.argv.includes(preloadFlag)) {
   logger.info(
     "Server",
     `${preloadFlag} was passed, starting to preload media...`,
   );
-  preloadAndPreprocessCharacterMedia();
+  await CharactersController.preloadAndPreprocessMedia();
 }
+
+const io = new Server(running);
+
+io.on("connection", (socket) => {
+  socket.on("pols-change", (json: string) => {
+    socket.broadcast.emit("pols-update", json);
+  });
+});

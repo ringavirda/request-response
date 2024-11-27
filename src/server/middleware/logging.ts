@@ -1,7 +1,8 @@
-import logger from "@server/services/logger";
 import { Request, Response, NextFunction } from "express";
 
-const allowedStatusCodes = [200, 204, 304];
+import { logger } from "@server/framework";
+
+const allowedStatusCodes = [200, 204, 301, 304];
 
 export const loggingMiddleware = (
   request: Request,
@@ -9,13 +10,17 @@ export const loggingMiddleware = (
   next: NextFunction,
 ) => {
   response.on("finish", () => {
-    if (!allowedStatusCodes.includes(response.statusCode)) {
+    if (allowedStatusCodes.includes(response.statusCode)) {
+      logger.info(
+        "Request",
+        `[${request.method}] to ${request.url} from ${request.socket.remoteAddress} returned status (${response.statusCode}).`,
+      );
+    } else {
       logger.warn(
         "Request",
         `[${request.method}] to ${request.url} from ${request.socket.remoteAddress} returned with bad status (${response.statusCode}).`,
       );
     }
   });
-
-  next();
+  return next();
 };

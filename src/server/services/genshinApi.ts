@@ -1,44 +1,7 @@
+import { singleton } from "tsyringe";
+
 import { Character } from "@common/models";
-import { container, singleton } from "tsyringe";
-import logger from "./logger";
-import { ImageProcessor } from "./imageProcessor";
-
-export const preloadAndPreprocessCharacterMedia = async () => {
-  const api = container.resolve(GenshinApiService);
-  const waifus = await api.fetchCharacterList();
-  const blobs: Array<Blob> = [];
-  await Promise.all(
-    waifus.map(async (waif) => {
-      try {
-        blobs.push(await api.fetchCharacterPortrait(waif));
-      } catch {
-        try {
-          blobs.push(await api.fetchCharacterCard(waif));
-        } catch {
-          logger.warn(
-            "Server",
-            `Did not resolve character [${waif}] while preloading media.`,
-          );
-        }
-      }
-    }),
-  );
-  logger.info(
-    "Server",
-    `Finished preloading [${waifus.length}] character media.`,
-  );
-
-  const optimizer = new ImageProcessor();
-  await Promise.all(
-    blobs.map(async (blob) => {
-      optimizer.processBlob(blob);
-    }),
-  );
-  logger.info(
-    "Server",
-    `Finished preprocessing [${blobs.length}] character media.`,
-  );
-};
+import { BadRequestError, NotFoundError } from "@server/framework";
 
 interface WaifuCacheEntry {
   character: Character;
@@ -46,7 +9,7 @@ interface WaifuCacheEntry {
 }
 
 @singleton()
-export class GenshinApiService {
+export class GenshinApi {
   private _baseApiUrl: string = "https://genshin.jmp.blue/characters" as const;
 
   private _waifuCache: Map<string, WaifuCacheEntry> = new Map();
@@ -54,7 +17,7 @@ export class GenshinApiService {
   public async fetchCharacterList(): Promise<Array<string>> {
     const response = await fetch(this._baseApiUrl);
     if (!response.ok)
-      throw new Error(`Wasn't able to load waifu list! Oh, no...`);
+      throw new NotFoundError(`Wasn't able to load waifu list! Oh, no...`);
 
     return response.json();
   }
@@ -65,7 +28,7 @@ export class GenshinApiService {
 
     const response = await fetch(`${this._baseApiUrl}/${target}`);
     if (!response.ok)
-      throw new Error(`Wasn't able to load target [${target}].`);
+      throw new NotFoundError(`Wasn't able to load character [${target}].`);
 
     const char = (await response.json()) as Character;
     const charLite = {
@@ -101,12 +64,12 @@ export class GenshinApiService {
     iconType: string,
   ): Promise<Blob> {
     if (!["", "side", "big"].includes(iconType))
-      throw new Error(`Api: Unsupported icon type: ${iconType}.`);
+      throw new BadRequestError(`Api: Unsupported icon type: ${iconType}.`);
     if (iconType !== "") iconType = `-${iconType}`;
     return await this.fetchCharacterMedia(`icon${iconType}`, target);
   }
 
-  private async fetchCharacterMedia(
+  public async fetchCharacterMedia(
     type: string,
     target: string,
   ): Promise<Blob> {
@@ -114,7 +77,9 @@ export class GenshinApiService {
       const blob = this._waifuCache.get(target)?.blobs.get(type);
       if (blob !== undefined && blob !== null) return blob;
       if (blob === null)
-        throw new Error(`Failed to load media for target [${target}].`);
+        throw new NotFoundError(
+          `Failed to load media for character [${target}].`,
+        );
     }
 
     const urlMedia = `${this._baseApiUrl}/${target}/${type}`;
@@ -123,7 +88,7 @@ export class GenshinApiService {
       if (this._waifuCache.has(target)) {
         this._waifuCache.get(target)?.blobs.set(type, null);
       }
-      throw new Error(`Failed to load media for target [${target}].`);
+      throw new NotFoundError(`Failed to load media for target [${target}].`);
     }
 
     const blob = await res.blob();

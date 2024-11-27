@@ -1,5 +1,7 @@
-import { Character } from "@common/models";
 import { singleton } from "tsyringe";
+
+import { Character } from "@common/models";
+import { commonHostname, commonPort } from "@common/routes";
 
 export interface ICharsApi {
   fetchCharacterList(): Promise<Array<string>>;
@@ -24,7 +26,8 @@ interface CharsCacheEntry {
 
 @singleton()
 export class CharsApi implements ICharsApi {
-  private _baseApiUrl: string = "http://localhost:5000/api/chars" as const;
+  private _baseApiUrl: string =
+    `http://${commonHostname}:${commonPort}/api/chars` as const;
   private _charsCache: Map<string, CharsCacheEntry> = new Map();
 
   public async fetchCharacterList(): Promise<Array<string>> {
@@ -35,14 +38,13 @@ export class CharsApi implements ICharsApi {
   }
 
   public async fetchCharacter(id: string): Promise<Character> {
-    console.log("CharsApi used.");
     if (this._charsCache.has(id))
       return this._charsCache.get(id)?.character as Character;
 
     const res = await fetch(`${this._baseApiUrl}/${id}`);
     if (!res.ok)
       throw new Error(
-        `Wasn't able to load target [${id}]. Reason: ${res.statusText}`,
+        `Wasn't able to load character [${id}]. Reason: ${res.statusText}`,
       );
 
     const char = await res.json();
@@ -114,7 +116,7 @@ export class CharsApi implements ICharsApi {
     return blobUrl;
   }
   public async fetchCharacterIcon(id: string, type?: string): Promise<string> {
-    const iconType = type !== "" ? `icon-${type}` : "icon";
+    const iconType = type !== "" ? `icon?type=${type}` : "icon";
 
     if (this._charsCache.get(id)?.mediaUrls.has(iconType)) {
       const cached = this._charsCache.get(id)?.mediaUrls;
@@ -158,7 +160,6 @@ export class CharsGenshinApi implements ICharsApi {
   }
 
   public async fetchCharacter(id: string): Promise<Character> {
-    console.log("CharsGenshinApi used.");
     if (this._waifuCashe.has(id))
       return this._waifuCashe.get(id)?.[0] as Character;
 

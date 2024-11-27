@@ -1,0 +1,70 @@
+@use "styles/variables.scss" as vars;
+@use "styles/mixins.scss" as mx;
+
+.chars-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 2em auto;
+  background-color: darkorange;
+  @media screen and (max-width: vars.$vertical-width) {
+    flex-direction: column;
+  }
+
+  .ctrl-input {
+    font-size: large;
+    font-weight: 600;
+    align-self: center;
+    width: 90%;
+    height: 2em;
+    margin: 0.5em;
+    padding: 0.2em;
+    padding-left: 1em;
+    background-color: white;
+    border: 0;
+    border-radius: 0.5em;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .ctrl-btn-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    .ctrl-btn-get {
+      @include mx.button-interact();
+      margin: 0.5em;
+      margin-right: 1em;
+      border-radius: 1em;
+      font-size: larger;
+      font-weight: 800;
+      padding-inline: 1.5em;
+      border: 0;
+      color: white;
+      background-color: #c00;
+      @media screen and (max-width: vars.$vertical-width) {
+        min-height: 2em;
+      }
+    }
+
+    .ctrl-btn-rnd {
+      @include mx.button-interact();
+      font-size: large;
+      font-weight: 700;
+      margin: 0.5em;
+      margin-right: 1em;
+      border-radius: 1em;
+      padding-inline: 1em;
+      color: white;
+      background-color: #c00;
+      @media screen and (max-width: vars.$vertical-width) {
+        min-height: 2em;
+      }
+    }
+  }
+}

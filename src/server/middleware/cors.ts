@@ -1,24 +1,23 @@
-import { serverAllowedMethods } from "@server/server";
 import { Request, Response, NextFunction } from "express";
 
-export const corsMiddleware = (
-  request: Request,
-  response: Response,
+import { serverAllowedMethods } from "@server/server";
+
+export function corsMiddleware(
+  req: Request,
+  res: Response,
   next: NextFunction,
-) => {
-  response.header("Access-Control-Allow-Origin", request.header("origin"));
-  response.header(
+) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept",
   );
 
-  if (request.method == "OPTIONS") {
-    response.header(
+  if (req.method == "OPTIONS") {
+    res.header(
       "Access-Control-Allow-Methods",
       serverAllowedMethods.map((m) => m.toUpperCase()).join(", "),
     );
-    return response.status(204).json({});
-  }
-
-  next();
-};
+    res.status(204).send();
+  } else return next();
+}

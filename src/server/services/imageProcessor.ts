@@ -1,10 +1,12 @@
 import sharp from "sharp";
+import { singleton } from "tsyringe";
 
 interface ProcessorBufferItem {
   blob: Blob;
   optimized: Buffer;
 }
 
+@singleton()
 export class ImageProcessor {
   private _processedBuffer: Array<ProcessorBufferItem> = [];
 
@@ -18,6 +20,7 @@ export class ImageProcessor {
 
     const buffer = Buffer.from(await blob.arrayBuffer());
     const optimized = await sharp(buffer)
+      .trim()
       .resize({ height: resizeHeight, width: resizeWidth, fit: "cover" })
       .flatten({ background: { r: 255, g: 255, b: 255 } })
       .jpeg()
