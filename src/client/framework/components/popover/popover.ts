@@ -18,6 +18,6 @@ export class PopoverWrapper extends ComponentBase {
   public async initialize(anchor?: HTMLElement, model?: any): Promise<void> {
     const type = this.modelIsDefined<constructor<ComponentBase>>(model);
     const renderer = this.getElement(".pop-component");
-    loadComponent(renderer, type);
+    await loadComponent(renderer, type);
   }
 }
